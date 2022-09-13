@@ -3,6 +3,7 @@ package service
 import (
 	"errors"
 	"myfinnplan/entity"
+	"time"
 
 	"github.com/dgrijalva/jwt-go"
 )
@@ -25,7 +26,7 @@ func (s *jwtService) GenerateToken(userId int, userName string) (string, error) 
 	claim := jwt.MapClaims{}
 
 	claim["user_id"] = userId
-	claim["user_name"] = userName
+	claim["time"] = time.Now().Add(time.Hour * 24 * 3)
 
 	token := jwt.NewWithClaims(jwt.SigningMethodHS256, claim)
 
