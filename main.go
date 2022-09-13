@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"net/http"
+	"os"
 	"strings"
 	"time"
 
@@ -72,6 +73,13 @@ func main() {
 	}))
 
 	api := router.Group("/api/v1")
+	api.GET("/", func(ctx *gin.Context) {
+		html, err := os.ReadFile("index.html")
+		if err != nil {
+			ctx.Data(http.StatusBadGateway, "text/html; charset=utf-8", []byte(err.Error()))
+		}
+		ctx.Data(http.StatusOK, "text/html; charset=utf-8", html)
+	})
 	//auth
 	api.POST("/createuserAccount", authMiddleware(jwtService, userService), userAccountHandler.CreateUserAccount)
 	api.POST("/edituserAccount", authMiddleware(jwtService, userService), userAccountHandler.EditUserAccount)
