@@ -170,7 +170,7 @@ func (s *transactionService) DeleteTransaction(id int, userName string) (entity.
 	}
 
 	if len(transactions) == 0 {
-		return entity.Transaction{}, errors.New("Transaction Not Found")
+		return entity.Transaction{}, errors.New("transaction not found")
 	}
 
 	transaction := transactions[0]

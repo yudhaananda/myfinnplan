@@ -2,6 +2,7 @@ package service
 
 import (
 	"errors"
+	"myfinnplan/entity"
 
 	"github.com/dgrijalva/jwt-go"
 )
@@ -18,7 +19,7 @@ func NewJwtService() *jwtService {
 	return &jwtService{}
 }
 
-var secret = []byte("your_token")
+var secret = []byte(entity.SetEnv().JWT_SECRET_TOKEN)
 
 func (s *jwtService) GenerateToken(userId int, userName string) (string, error) {
 	claim := jwt.MapClaims{}

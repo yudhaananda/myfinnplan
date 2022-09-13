@@ -121,7 +121,7 @@ func (s *userService) DeleteUser(id int, userName string) (entity.User, error) {
 	}
 
 	if len(users) == 0 {
-		return entity.User{}, errors.New("User Not Found")
+		return entity.User{}, errors.New("user not found")
 	}
 
 	user := users[0]
