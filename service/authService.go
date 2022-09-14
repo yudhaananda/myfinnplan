@@ -45,6 +45,9 @@ func (s *authService) RegisterUser(input input.UserInput) (entity.User, error) {
 	user := entity.User{
 		UserName:    input.UserName,
 		Password:    string(password),
+		Email:       input.Email,
+		Photo:       input.Photo,
+		Telephone:   input.Telephone,
 		CreatedBy:   input.UserName,
 		CreatedDate: time.Now(),
 	}

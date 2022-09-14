@@ -6,6 +6,9 @@ type User struct {
 	Id          int `gorm:"primarykey;autoIncrement:true"`
 	UserName    string
 	Password    string
+	Email       string
+	Telephone   string
+	Photo       string
 	CreatedBy   string
 	CreatedDate time.Time
 	UpdatedBy   string
