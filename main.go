@@ -1,7 +1,6 @@
 package main
 
 import (
-	"fmt"
 	"net/http"
 	"os"
 	"strings"
@@ -10,7 +9,7 @@ import (
 	"github.com/dgrijalva/jwt-go"
 	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
-	"gorm.io/driver/postgres"
+	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
 
 	"log"
@@ -23,12 +22,12 @@ import (
 
 func main() {
 
-	// dsn := "root:@tcp(127.0.0.1:3306)/myfinnplan?charset=utf8mb4&parseTime=true&loc=Local"
-	// db, err := gorm.Open(mysql.Open(dsn), &gorm.Config{})
+	dsn := "root:@tcp(127.0.0.1:3306)/myfinnplan?charset=utf8mb4&parseTime=true&loc=Local"
+	db, err := gorm.Open(mysql.Open(dsn), &gorm.Config{})
 
-	env := entity.SetEnv()
-	dsn := fmt.Sprintf("host=%s user=%s password=%s dbname=%s port=%s sslmode=require TimeZone=Asia/Shanghai", env.DB_HOST, env.DB_USER, env.DB_PASS, env.DB_NAME, env.DB_PORT)
-	db, err := gorm.Open(postgres.Open(dsn), &gorm.Config{})
+	// env := entity.SetEnv()
+	// dsn := fmt.Sprintf("host=%s user=%s password=%s dbname=%s port=%s sslmode=require TimeZone=Asia/Shanghai", env.DB_HOST, env.DB_USER, env.DB_PASS, env.DB_NAME, env.DB_PORT)
+	// db, err := gorm.Open(postgres.Open(dsn), &gorm.Config{})
 
 	if err != nil {
 		log.Fatal(err.Error())
@@ -49,6 +48,7 @@ func main() {
 	authService := service.NewAuthService(userRepository)
 	jwtService := service.NewJwtService()
 	bankAccountService := service.NewBankAccountService(bankAccountRepository)
+	bankService := service.NewBankService()
 
 	//Handler Region
 	userAccountHandler := handler.NewUserAccountHandler(userAccountService)
@@ -57,6 +57,7 @@ func main() {
 	userHandler := handler.NewUserHandler(userService)
 	authHandler := handler.NewAuthHandler(authService, jwtService)
 	bankAccountHandler := handler.NewBankAccountHandler(bankAccountService)
+	bankHandler := handler.NewBankHandler(bankService)
 
 	//Router Region
 	router := gin.Default()
@@ -122,6 +123,7 @@ func main() {
 	api.GET("/getbankAccountbybankcode/:bankCode", authMiddleware(jwtService, userService), bankAccountHandler.GetBankAccountByBankCode)
 	api.GET("/getbankAccountbyamount/:amount", authMiddleware(jwtService, userService), bankAccountHandler.GetBankAccountByAmount)
 	api.GET("/getbankAccountbynotes/:notes", authMiddleware(jwtService, userService), bankAccountHandler.GetBankAccountByNotes)
+	api.GET("/getbankdata", authMiddleware(jwtService, userService), bankHandler.GetBankData)
 
 	router.Run()
 
