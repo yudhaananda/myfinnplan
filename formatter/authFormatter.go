@@ -14,6 +14,7 @@ func FormatUser(user entity.User, token string) UserFormatter {
 		User: user,
 		Token:   token,
 	}
+	formatter.User.Password = ""
 	return formatter
 }
 
