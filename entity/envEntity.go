@@ -9,6 +9,7 @@ type Env struct {
 	DB_HOST          string
 	DB_NAME          string
 	JWT_SECRET_TOKEN string
+	URL              string
 }
 
 func SetEnv() Env {
@@ -19,6 +20,7 @@ func SetEnv() Env {
 		DB_HOST:          os.Getenv("DB_HOST"),
 		DB_NAME:          os.Getenv("DB_NAME"),
 		JWT_SECRET_TOKEN: os.Getenv("JWT_SECRET_TOKEN"),
+		URL:              os.Getenv("URL"),
 	}
 	return env
 }

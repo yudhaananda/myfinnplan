@@ -46,7 +46,7 @@ func (s *authService) SendEmail(user entity.User, token string) error {
 
 	a := helper.Replace{
 		ID:    user.Id,
-		Link:  "http://localhost:8080/api/v1/verifiedaccount",
+		Link:  entity.SetEnv().URL,
 		Token: token,
 		Name:  user.UserName,
 	}
