@@ -30,8 +30,8 @@ func NewAuthService(userRepository repository.UserRepository) *authService {
 }
 
 func (s *authService) SendEmail(user entity.User, token string) error {
-	email := "myfinnplan@gmail.com"
-	pw := "trlfuozwtersfdgp"
+	email := entity.SetEnv().EMAIL
+	pw := entity.SetEnv().EMAIL_PASS
 	host := "smtp.gmail.com"
 
 	auth := smtp.PlainAuth("", email, pw, host)
@@ -40,7 +40,7 @@ func (s *authService) SendEmail(user entity.User, token string) error {
 
 	a := helper.Replace{
 		ID:    user.Id,
-		Link:  "http://localhost:8080/api/v1/verifiedaccount",
+		Link:  entity.SetEnv().URL,
 		Token: token,
 		Name:  user.UserName,
 	}
