@@ -77,6 +77,8 @@ func (s *authService) VerifiedUser(id int) (entity.User, error) {
 	userOld := checkUser[0]
 
 	userOld.IsVerified = true
+	userOld.UpdatedBy = userOld.UserName
+	userOld.UpdatedDate = time.Now()
 
 	user, err := s.userRepository.Edit(userOld)
 
