@@ -25,19 +25,23 @@ func NewAuthHandler(authService service.AuthService, jwtService service.JwtServi
 func (h *authHandler) VerifiedUser(c *gin.Context) {
 	tokenString := c.Param("token")
 
+	failedTemplate, err := os.ReadFile("failed.html")
+	if err != nil {
+		c.Data(http.StatusOK, "text/html", failedTemplate)
+		return
+	}
+
 	token, err := h.jwtService.ValidateToken(tokenString)
 
 	if err != nil {
-		response := helper.APIResponse("Unauthorized", http.StatusUnauthorized, "error", nil)
-		c.AbortWithStatusJSON(http.StatusUnauthorized, response)
+		c.Data(http.StatusOK, "text/html", failedTemplate)
 		return
 	}
 
 	claim, ok := token.Claims.(jwt.MapClaims)
 
 	if !ok || !token.Valid {
-		response := helper.APIResponse("Unauthorized", http.StatusUnauthorized, "error", nil)
-		c.AbortWithStatusJSON(http.StatusUnauthorized, response)
+		c.Data(http.StatusOK, "text/html", failedTemplate)
 		return
 	}
 	userId := int(claim["user_id"].(float64))
@@ -45,35 +49,29 @@ func (h *authHandler) VerifiedUser(c *gin.Context) {
 	dateTime, err := time.Parse(time.RFC3339Nano, claim["time"].(string))
 
 	if err != nil {
-		response := helper.APIResponse("Error Parse Date", http.StatusUnauthorized, "error", nil)
-		c.AbortWithStatusJSON(http.StatusUnauthorized, response)
+		c.Data(http.StatusOK, "text/html", failedTemplate)
 		return
 	}
 
 	if dateTime.Before(time.Now()) {
-		response := helper.APIResponse("Session End", http.StatusUnauthorized, "error", nil)
-		c.AbortWithStatusJSON(http.StatusUnauthorized, response)
+		c.Data(http.StatusOK, "text/html", failedTemplate)
 		return
 	}
 
 	_, err = h.authService.VerifiedUser(userId)
 
 	if err != nil {
-		errorMessage := gin.H{"errors": err.Error()}
-		response := helper.APIResponse("Verified Failed", http.StatusBadRequest, "Failed", errorMessage)
-		c.JSON(http.StatusBadRequest, response)
+		c.Data(http.StatusOK, "text/html", failedTemplate)
 		return
 	}
-	template, err := os.ReadFile("success.html")
+	successTemplate, err := os.ReadFile("success.html")
 
 	if err != nil {
-		errorMessage := gin.H{"errors": err.Error()}
-		response := helper.APIResponse("Verified Failed", http.StatusBadRequest, "Failed", errorMessage)
-		c.JSON(http.StatusBadRequest, response)
+		c.Data(http.StatusOK, "text/html", failedTemplate)
 		return
 	}
 
-	c.Data(http.StatusOK, "text/html", template)
+	c.Data(http.StatusOK, "text/html", successTemplate)
 }
 
 func (h *authHandler) RegisterUser(c *gin.Context) {
