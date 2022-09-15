@@ -145,7 +145,7 @@ func (s *authService) Login(input input.LoginInput) (entity.User, error) {
 			return entity.User{}, err
 		}
 		if len(users) == 0 {
-			return entity.User{}, errors.New("user with username " + input.UserName + " not found")
+			return entity.User{}, errors.New("user with username or email " + input.UserName + " not found")
 		}
 	}
 
