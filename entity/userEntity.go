@@ -9,6 +9,7 @@ type User struct {
 	Email       string
 	Telephone   string
 	Photo       string
+	IsVerified  bool
 	CreatedBy   string
 	CreatedDate time.Time
 	UpdatedBy   string
