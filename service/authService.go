@@ -30,15 +30,9 @@ func NewAuthService(userRepository repository.UserRepository) *authService {
 }
 
 func (s *authService) SendEmail(user entity.User, token string) error {
-	email := "myfinnplan@gmail.com"
-	pw := "trlfuozwtersfdgp"
+	email := entity.SetEnv().EMAIL
+	pw := entity.SetEnv().EMAIL_PASS
 	host := "smtp.gmail.com"
-	// port := "587"
-	// msg, err := os.ReadFile("index.html")
-
-	// if err != nil {
-	// 	return err
-	// }
 
 	auth := smtp.PlainAuth("", email, pw, host)
 
