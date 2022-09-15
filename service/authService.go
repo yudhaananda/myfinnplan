@@ -140,7 +140,13 @@ func (s *authService) Login(input input.LoginInput) (entity.User, error) {
 		return entity.User{}, err
 	}
 	if len(users) == 0 {
-		return entity.User{}, errors.New("user with username " + input.UserName + " not found")
+		users, err = s.userRepository.FindByEmail(input.UserName)
+		if err != nil {
+			return entity.User{}, err
+		}
+		if len(users) == 0 {
+			return entity.User{}, errors.New("user with username " + input.UserName + " not found")
+		}
 	}
 
 	user := users[0]
