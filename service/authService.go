@@ -102,6 +102,16 @@ func (s *authService) RegisterUser(input input.UserInput) (entity.User, error) {
 		return entity.User{}, errors.New("UserName sudah pernah diinputkan")
 	}
 
+	checkUser, err = s.userRepository.FindByEmail(input.Email)
+
+	if err != nil {
+		return entity.User{}, errors.New("error find user")
+	}
+
+	if len(checkUser) != 0 {
+		return entity.User{}, errors.New("email sudah pernah diinputkan")
+	}
+
 	if len(strings.Split(input.Email, "@")) != 2 || len(strings.Split(strings.Split(input.Email, "@")[1], ".")) != 2 {
 		return entity.User{}, errors.New("invalid email")
 	}
