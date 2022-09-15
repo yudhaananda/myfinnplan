@@ -871,36 +871,3 @@
     </div>
   </body>
 </html>
-<!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
-<script>
-  $("#successNotif1").hide();
-  $("#successNotif2").hide();
-  $("#errorNotif1").hide();
-  $("#errorNotif2").hide();
-
-  $("#verifybutton").click(function () {
-    $.ajax({
-      type: "POST",
-      url: "{{.url}}",
-      dataType: "json",
-      data: { id: "{{.ID}}" },
-      beforeSend: function (xhr) {
-        xhr.setRequestHeader("Authorization", "{{.token}}");
-      },
-      success: function (result) {
-        $("#successNotif1").show();
-        $("#successNotif2").show();
-        $("#mainNotif1").hide();
-        $("#mainNotif2").hide();
-        $("#verifybutton").hide();
-      },
-      error: function (error) {
-        $("#errorNotif1").show();
-        $("#errorNotif2").show();
-        $("#mainNotif1").hide();
-        $("#mainNotif2").hide();
-        $("#verifybutton").hide();
-      },
-    });
-  });
-</script> -->

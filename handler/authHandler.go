@@ -2,6 +2,7 @@ package handler
 
 import (
 	"bytes"
+	"fmt"
 	"html/template"
 	"myfinnplan/formatter"
 	"myfinnplan/helper"
@@ -63,6 +64,7 @@ func (h *authHandler) VerifiedUser(c *gin.Context) {
 	user, err := h.authService.VerifiedUser(userId)
 
 	if err != nil {
+		fmt.Println(err)
 		c.Data(http.StatusOK, "text/html", failedTemplate)
 		return
 	}
@@ -71,13 +73,15 @@ func (h *authHandler) VerifiedUser(c *gin.Context) {
 		Name: user.UserName,
 	}
 
-	t, err := template.ParseFiles("success,html")
+	t, err := template.ParseFiles("success.html")
 	if err != nil {
+		fmt.Println(err)
 		c.Data(http.StatusOK, "text/html", failedTemplate)
 		return
 	}
 	buf := new(bytes.Buffer)
 	if err = t.Execute(buf, a); err != nil {
+		fmt.Println(err)
 		c.Data(http.StatusOK, "text/html", failedTemplate)
 		return
 	}
