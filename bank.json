@@ -1,7 +1,7 @@
 [{
         "name": "BANK BRI",
         "code": "002",
-        "color": "#0000cd;#0000cd"
+        "color": "#0892d0;#0892d0"
     },
     {
         "name": "BANK EKSPOR INDONESIA",
@@ -11,7 +11,7 @@
     {
         "name": "BANK MANDIRI",
         "code": "008",
-        "color": "#ffd700;#0000cd"
+        "color": "#ffd700;#0892d0"
     },
     {
         "name": "BANK BNI",
@@ -36,7 +36,7 @@
     {
         "name": "BANK BCA",
         "code": "014",
-        "color": "#0000cd;#0000cd"
+        "color": "#0892d0;#0892d0"
     },
     {
         "name": "BANK BII",
@@ -76,12 +76,12 @@
     {
         "name": "AMERICAN EXPRESS BANK LTD",
         "code": "030",
-        "color": "#0000cd;#0000cd"
+        "color": "#0892d0;#0892d0"
     },
     {
         "name": "CITIBANK N.A.",
         "code": "031",
-        "color": "#0000cd;#0000cd"
+        "color": "#0892d0;#0892d0"
     },
     {
         "name": "JP. MORGAN CHASE BANK, N.A.",
