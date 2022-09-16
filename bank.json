@@ -1,137 +1,137 @@
 [{
         "name": "BANK BRI",
         "code": "002",
-        "color": "blue"
+        "color": "#0000cd;#0000cd"
     },
     {
         "name": "BANK EKSPOR INDONESIA",
         "code": "003",
-        "color": "blue"
+        "color": "null"
     },
     {
         "name": "BANK MANDIRI",
         "code": "008",
-        "color": "yellow"
+        "color": "#ffd700;#0000cd"
     },
     {
         "name": "BANK BNI",
         "code": "009",
-        "color": "orange"
+        "color": "#ff8c00;#008000"
     },
     {
         "name": "BANK BNI SYARIAH",
         "code": "427",
-        "color": "orange"
+        "color": "#ff8c00;#008000"
     },
     {
         "name": "BANK DANAMON",
         "code": "011",
-        "color": "orange"
+        "color": "#ff4500;#ff4500"
     },
     {
         "name": "PERMATA BANK",
         "code": "013",
-        "color": "green"
+        "color": "#008000;#ff0000"
     },
     {
         "name": "BANK BCA",
         "code": "014",
-        "color": "blue"
+        "color": "#0000cd;#0000cd"
     },
     {
         "name": "BANK BII",
         "code": "016",
-        "color": "red"
+        "color": "null"
     },
     {
         "name": "BANK PANIN",
         "code": "019",
-        "color": "blue"
+        "color": "null"
     },
     {
         "name": "BANK ARTA NIAGA KENCANA",
         "code": "020",
-        "color": "red"
+        "color": "null"
     },
     {
         "name": "BANK NIAGA",
         "code": "022",
-        "color": "red"
+        "color": "null"
     },
     {
         "name": "BANK BUANA IND",
         "code": "023",
-        "color": "blue"
+        "color": "null"
     },
     {
         "name": "BANK LIPPO",
         "code": "026",
-        "color": "red"
+        "color": "null"
     },
     {
         "name": "BANK NISP",
         "code": "028",
-        "color": "blue"
+        "color": "null"
     },
     {
         "name": "AMERICAN EXPRESS BANK LTD",
         "code": "030",
-        "color": "blue"
+        "color": "#0000cd;#0000cd"
     },
     {
         "name": "CITIBANK N.A.",
         "code": "031",
-        "color": "blue"
+        "color": "#0000cd;#0000cd"
     },
     {
         "name": "JP. MORGAN CHASE BANK, N.A.",
         "code": "032",
-        "color": "black"
+        "color": "#696969;#020202"
     },
     {
         "name": "BANK OF AMERICA, N.A",
         "code": "033",
-        "color": "red"
+        "color": "null"
     },
     {
         "name": "ING INDONESIA BANK",
         "code": "034",
-        "color": "orange"
+        "color": "null"
     },
     {
         "name": "BANK MULTICOR TBK.",
         "code": "036",
-        "color": "yellow"
+        "color": "null"
     },
     {
         "name": "BANK ARTHA GRAHA",
         "code": "037",
-        "color": "yellow"
+        "color": "null"
     },
     {
         "name": "BANK CREDIT AGRICOLE INDOSUEZ",
         "code": "039",
-        "color": "blue"
+        "color": "null"
     },
     {
         "name": "THE BANGKOK BANK COMP. LTD",
         "code": "040",
-        "color": "green"
+        "color": "null"
     },
     {
         "name": "THE HONGKONG & SHANGHAI B.C.",
         "code": "041",
-        "color": "red"
+        "color": "#020202;#020202"
     },
     {
         "name": "THE BANK OF TOKYO MITSUBISHI UFJ LTD",
         "code": "042",
-        "color": "red"
+        "color": "null"
     },
     {
         "name": "BANK SUMITOMO MITSUI INDONESIA",
         "code": "045",
-        "color": "green"
+        "color": "null"
     },
     {
         "name": "BANK DBS INDONESIA",
