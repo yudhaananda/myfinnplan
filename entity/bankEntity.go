@@ -1,6 +1,7 @@
 package entity
 
 type Bank struct {
-	Name string
-	Code string
+	Name  string
+	Code  string
+	Color string
 }
