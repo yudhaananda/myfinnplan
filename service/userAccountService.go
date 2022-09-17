@@ -29,7 +29,6 @@ func NewUserAccountService(userAccountRepository repository.UserAccountRepositor
 
 func (s *userAccountService) CreateUserAccount(input input.UserAccountInput, userName string) (entity.UserAccount, error) {
 	userAccount := entity.UserAccount{
-		AccountCode: input.AccountCode,
 		AccountName: input.AccountName,
 		CreatedBy:   userName,
 		CreatedDate: time.Now(),
@@ -55,7 +54,6 @@ func (s *userAccountService) EditUserAccount(input input.UserAccountEditInput, u
 
 	userAccount := entity.UserAccount{
 		Id:          input.Id,
-		AccountCode: input.AccountCode,
 		AccountName: input.AccountName,
 		CreatedBy:   oldUserAccount.CreatedBy,
 		CreatedDate: oldUserAccount.CreatedDate,

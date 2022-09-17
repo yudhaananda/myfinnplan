@@ -32,13 +32,13 @@ func NewBankAccountService(bankAccountRepository repository.BankAccountRepositor
 
 func (s *bankAccountService) CreateBankAccount(input input.BankAccountInput, userName string) (entity.BankAccount, error) {
 	bankAccount := entity.BankAccount{
-		AccountCode:      input.AccountCode,
-		AccountNameOwner: input.AccountNameOwner,
-		BankCode:         input.BankCode,
-		Amount:           input.Amount,
-		Notes:            input.Notes,
-		CreatedBy:        userName,
-		CreatedDate:      time.Now(),
+		AccountIdOwner: input.AccountIdOwner,
+		UserAccountId:  input.UserAccountId,
+		BankCode:       input.BankCode,
+		Amount:         input.Amount,
+		Notes:          input.Notes,
+		CreatedBy:      userName,
+		CreatedDate:    time.Now(),
 	}
 
 	newBankAccount, err := s.bankAccountRepository.Save(bankAccount)
@@ -60,15 +60,15 @@ func (s *bankAccountService) EditBankAccount(input input.BankAccountEditInput, u
 	oldBankAccount := oldBankAccounts[0]
 
 	bankAccount := entity.BankAccount{
-		Id:               input.Id,
-		AccountCode:      input.AccountCode,
-		AccountNameOwner: input.AccountNameOwner,
-		BankCode:         input.BankCode,
-		Amount:           input.Amount,
-		Notes:            input.Notes,
-		CreatedBy:        oldBankAccount.CreatedBy,
-		CreatedDate:      oldBankAccount.CreatedDate,
-		UpdatedBy:        userName,
+		Id:             input.Id,
+		AccountIdOwner: input.AccountIdOwner,
+		UserAccountId:  input.UserAccountId,
+		BankCode:       input.BankCode,
+		Amount:         input.Amount,
+		Notes:          input.Notes,
+		CreatedBy:      oldBankAccount.CreatedBy,
+		CreatedDate:    oldBankAccount.CreatedDate,
+		UpdatedBy:      userName,
 	}
 
 	newBankAccount, err := s.bankAccountRepository.Edit(bankAccount)
