@@ -179,6 +179,24 @@ func (h *userAccountHandler) GetUserAccountByAccountName(c *gin.Context) {
 	c.JSON(http.StatusOK, response)
 }
 
+func (h *userAccountHandler) GetUserAccountByCreatedBy(c *gin.Context) {
+	createdBy := c.Param("createdby")
+
+	userAccount, err := h.userAccountService.GetUserAccountByCreatedBy(createdBy)
+
+	if err != nil {
+		errorMessage := gin.H{"errors": err.Error()}
+
+		response := helper.APIResponse("Get UserAccount Failed", http.StatusUnprocessableEntity, "Failed", errorMessage)
+		c.JSON(http.StatusUnprocessableEntity, response)
+		return
+	}
+
+	response := helper.APIResponse("Get UserAccount Success", http.StatusOK, "Success", userAccount)
+
+	c.JSON(http.StatusOK, response)
+}
+
 func (h *userAccountHandler) DeleteUserAccount(c *gin.Context) {
 	id := c.Param("id")
 

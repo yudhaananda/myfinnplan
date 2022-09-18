@@ -12,7 +12,7 @@ type UserAccountRepository interface {
 	FindById(id int) ([]entity.UserAccount, error)
 	FindByAccountCode(accountCode string) ([]entity.UserAccount, error)
 	FindByAccountName(accountName string) ([]entity.UserAccount, error)
-
+	FindByCreatedBy(createdBy string) ([]entity.UserAccount, error)
 	FindAll() ([]entity.UserAccount, error)
 }
 
@@ -70,6 +70,18 @@ func (r *userAccountRepository) FindByAccountName(accountName string) ([]entity.
 	var userAccount []entity.UserAccount
 
 	err := r.db.Where("account_name = ? AND deleted_by = ?", accountName, "").Find(&userAccount).Error
+
+	if err != nil {
+		return userAccount, err
+	}
+
+	return userAccount, nil
+}
+
+func (r *userAccountRepository) FindByCreatedBy(createdBy string) ([]entity.UserAccount, error) {
+	var userAccount []entity.UserAccount
+
+	err := r.db.Where("created_by = ? AND deleted_by = ?", createdBy, "").Find(&userAccount).Error
 
 	if err != nil {
 		return userAccount, err

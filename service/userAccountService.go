@@ -14,7 +14,7 @@ type UserAccountService interface {
 	GetUserAccountById(id int) ([]entity.UserAccount, error)
 	GetUserAccountByAccountCode(accountCode string) ([]entity.UserAccount, error)
 	GetUserAccountByAccountName(accountName string) ([]entity.UserAccount, error)
-
+	GetUserAccountByCreatedBy(createdBy string) ([]entity.UserAccount, error)
 	GetAllUserAccount() ([]entity.UserAccount, error)
 	DeleteUserAccount(id int, userName string) (entity.UserAccount, error)
 }
@@ -100,6 +100,21 @@ func (s *userAccountService) GetUserAccountByAccountCode(accountCode string) ([]
 func (s *userAccountService) GetUserAccountByAccountName(accountName string) ([]entity.UserAccount, error) {
 
 	userAccount, err := s.userAccountRepository.FindByAccountName(accountName)
+
+	if err != nil {
+		return userAccount, err
+	}
+
+	if len(userAccount) == 0 {
+		return userAccount, errors.New("userAccount not found")
+	}
+
+	return userAccount, nil
+}
+
+func (s *userAccountService) GetUserAccountByCreatedBy(createdBy string) ([]entity.UserAccount, error) {
+
+	userAccount, err := s.userAccountRepository.FindByCreatedBy(createdBy)
 
 	if err != nil {
 		return userAccount, err
