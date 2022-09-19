@@ -9,12 +9,12 @@ import (
 )
 
 type UserAccountService interface {
-	CreateUserAccount(input input.UserAccountInput, userName string) (entity.UserAccount, error)
-	EditUserAccount(input input.UserAccountEditInput, userName string) (entity.UserAccount, error)
+	CreateUserAccount(input input.UserAccountInput, user entity.User) (entity.UserAccount, error)
+	EditUserAccount(input input.UserAccountEditInput, user entity.User) (entity.UserAccount, error)
 	GetUserAccountById(id int) ([]entity.UserAccount, error)
 	GetUserAccountByAccountCode(accountCode string) ([]entity.UserAccount, error)
 	GetUserAccountByAccountName(accountName string) ([]entity.UserAccount, error)
-	GetUserAccountByCreatedBy(createdBy string) ([]entity.UserAccount, error)
+	GetUserAccountByUserId(userId int) ([]entity.UserAccount, error)
 	GetAllUserAccount() ([]entity.UserAccount, error)
 	DeleteUserAccount(id int, userName string) (entity.UserAccount, error)
 }
@@ -27,10 +27,11 @@ func NewUserAccountService(userAccountRepository repository.UserAccountRepositor
 	return &userAccountService{userAccountRepository}
 }
 
-func (s *userAccountService) CreateUserAccount(input input.UserAccountInput, userName string) (entity.UserAccount, error) {
+func (s *userAccountService) CreateUserAccount(input input.UserAccountInput, user entity.User) (entity.UserAccount, error) {
 	userAccount := entity.UserAccount{
 		AccountName: input.AccountName,
-		CreatedBy:   userName,
+		UserId:      user.Id,
+		CreatedBy:   user.UserName,
 		CreatedDate: time.Now(),
 	}
 
@@ -43,7 +44,7 @@ func (s *userAccountService) CreateUserAccount(input input.UserAccountInput, use
 	return newUserAccount, nil
 }
 
-func (s *userAccountService) EditUserAccount(input input.UserAccountEditInput, userName string) (entity.UserAccount, error) {
+func (s *userAccountService) EditUserAccount(input input.UserAccountEditInput, user entity.User) (entity.UserAccount, error) {
 	oldUserAccounts, err := s.userAccountRepository.FindById(input.Id)
 
 	if err != nil {
@@ -55,9 +56,10 @@ func (s *userAccountService) EditUserAccount(input input.UserAccountEditInput, u
 	userAccount := entity.UserAccount{
 		Id:          input.Id,
 		AccountName: input.AccountName,
+		UserId:      user.Id,
 		CreatedBy:   oldUserAccount.CreatedBy,
 		CreatedDate: oldUserAccount.CreatedDate,
-		UpdatedBy:   userName,
+		UpdatedBy:   user.UserName,
 	}
 
 	newUserAccount, err := s.userAccountRepository.Edit(userAccount)
@@ -112,9 +114,9 @@ func (s *userAccountService) GetUserAccountByAccountName(accountName string) ([]
 	return userAccount, nil
 }
 
-func (s *userAccountService) GetUserAccountByCreatedBy(createdBy string) ([]entity.UserAccount, error) {
+func (s *userAccountService) GetUserAccountByUserId(userId int) ([]entity.UserAccount, error) {
 
-	userAccount, err := s.userAccountRepository.FindByCreatedBy(createdBy)
+	userAccount, err := s.userAccountRepository.FindByUserId(userId)
 
 	if err != nil {
 		return userAccount, err

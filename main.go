@@ -90,7 +90,7 @@ func main() {
 	api.GET("/getuserAccountbyid/:id", authMiddleware(jwtService, userService), userAccountHandler.GetUserAccountById)
 	api.GET("/getuserAccountbyaccountcode/:accountCode", authMiddleware(jwtService, userService), userAccountHandler.GetUserAccountByAccountCode)
 	api.GET("/getuserAccountbyaccountname/:accountName", authMiddleware(jwtService, userService), userAccountHandler.GetUserAccountByAccountName)
-	api.GET("/getuserAccountbycreatedby/:createdby", authMiddleware(jwtService, userService), userAccountHandler.GetUserAccountByCreatedBy)
+	api.GET("/getuserAccountbyuserid/:userId", authMiddleware(jwtService, userService), userAccountHandler.GetUserAccountByUserId)
 	api.POST("/createtrxCategory", authMiddleware(jwtService, userService), trxCategoryHandler.CreateTrxCategory)
 	api.POST("/edittrxCategory", authMiddleware(jwtService, userService), trxCategoryHandler.EditTrxCategory)
 	api.GET("/getalltrxCategorys", authMiddleware(jwtService, userService), trxCategoryHandler.GetAllTrxCategorys)

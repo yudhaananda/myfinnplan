@@ -86,7 +86,7 @@ func (h *userAccountHandler) EditUserAccount(c *gin.Context) {
 		return
 	}
 
-	userAccount, err := h.userAccountService.EditUserAccount(input, userLogin.(entity.User).UserName)
+	userAccount, err := h.userAccountService.EditUserAccount(input, userLogin.(entity.User))
 
 	if err != nil {
 
@@ -179,10 +179,20 @@ func (h *userAccountHandler) GetUserAccountByAccountName(c *gin.Context) {
 	c.JSON(http.StatusOK, response)
 }
 
-func (h *userAccountHandler) GetUserAccountByCreatedBy(c *gin.Context) {
-	createdBy := c.Param("createdby")
+func (h *userAccountHandler) GetUserAccountByUserId(c *gin.Context) {
+	userID := c.Param("createdby")
 
-	userAccount, err := h.userAccountService.GetUserAccountByCreatedBy(createdBy)
+	userIdInt, err := strconv.Atoi(userID)
+
+	if err != nil {
+		errorMessage := gin.H{"errors": err.Error()}
+
+		response := helper.APIResponse("Get UserAccount Failed", http.StatusUnprocessableEntity, "Failed", errorMessage)
+		c.JSON(http.StatusUnprocessableEntity, response)
+		return
+	}
+
+	userAccount, err := h.userAccountService.GetUserAccountByUserId(userIdInt)
 
 	if err != nil {
 		errorMessage := gin.H{"errors": err.Error()}
