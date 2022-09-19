@@ -45,7 +45,7 @@ func (h *userAccountHandler) CreateUserAccount(c *gin.Context) {
 		return
 	}
 
-	userAccount, err := h.userAccountService.CreateUserAccount(input, userLogin.(entity.User).UserName)
+	userAccount, err := h.userAccountService.CreateUserAccount(input, userLogin.(entity.User))
 
 	if err != nil {
 
