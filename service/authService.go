@@ -99,7 +99,7 @@ func (s *authService) RegisterUser(input input.UserInput) (entity.User, error) {
 	}
 
 	if len(checkUser) != 0 {
-		return entity.User{}, errors.New("UserName sudah pernah diinputkan")
+		return entity.User{}, errors.New("UserName already used")
 	}
 
 	checkUser, err = s.userRepository.FindByEmail(input.Email)
@@ -109,7 +109,7 @@ func (s *authService) RegisterUser(input input.UserInput) (entity.User, error) {
 	}
 
 	if len(checkUser) != 0 {
-		return entity.User{}, errors.New("email sudah pernah diinputkan")
+		return entity.User{}, errors.New("email already used")
 	}
 
 	if len(strings.Split(input.Email, "@")) != 2 || len(strings.Split(strings.Split(input.Email, "@")[1], ".")) != 2 {
