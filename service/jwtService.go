@@ -25,6 +25,7 @@ var secret = []byte(entity.SetEnv().JWT_SECRET_TOKEN)
 
 func (s *jwtService) GenerateToken(userId int, userName string) (string, error) {
 	fmt.Println(secret)
+	fmt.Println(string(secret))
 	claim := jwt.MapClaims{}
 
 	claim["user_id"] = userId
