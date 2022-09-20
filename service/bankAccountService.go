@@ -38,6 +38,7 @@ func (s *bankAccountService) CreateBankAccount(input input.BankAccountInput, use
 		Amount:         input.Amount,
 		Notes:          input.Notes,
 		IsDebit:        input.IsDebit,
+		ExpiredDate:    input.ExpiredDate,
 		CreatedBy:      userName,
 		CreatedDate:    time.Now(),
 	}
@@ -68,6 +69,7 @@ func (s *bankAccountService) EditBankAccount(input input.BankAccountEditInput, u
 		Amount:         input.Amount,
 		Notes:          input.Notes,
 		IsDebit:        input.IsDebit,
+		ExpiredDate:    input.ExpiredDate,
 		CreatedBy:      oldBankAccount.CreatedBy,
 		CreatedDate:    oldBankAccount.CreatedDate,
 		UpdatedBy:      userName,

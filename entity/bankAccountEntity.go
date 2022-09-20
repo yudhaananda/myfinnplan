@@ -10,6 +10,7 @@ type BankAccount struct {
 	Amount         float64
 	Notes          string
 	IsDebit        bool
+	ExpiredDate    time.Time
 	CreatedBy      string
 	CreatedDate    time.Time
 	UpdatedBy      string
