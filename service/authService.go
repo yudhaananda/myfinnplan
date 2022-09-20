@@ -112,7 +112,7 @@ func (s *authService) RegisterUser(input input.UserInput) (entity.User, error) {
 		return entity.User{}, errors.New("email already used")
 	}
 
-	if len(strings.Split(input.Email, "@")) != 2 || len(strings.Split(strings.Split(input.Email, "@")[1], ".")) != 2 {
+	if len(strings.Split(input.Email, "@")) != 2 || len(strings.Split(strings.Split(input.Email, "@")[1], ".")) < 2 {
 		return entity.User{}, errors.New("invalid email")
 	}
 
