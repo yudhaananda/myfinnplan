@@ -1,7 +1,7 @@
 [{
         "name": "BANK BRI",
         "code": "002",
-        "color": "#0892d0;#0892d0"
+        "color": "0x0892d0;0x0892d0"
     },
     {
         "name": "BANK EKSPOR INDONESIA",
@@ -11,32 +11,32 @@
     {
         "name": "BANK MANDIRI",
         "code": "008",
-        "color": "#ffd700;#0892d0"
+        "color": "0xffd700;0x0892d0"
     },
     {
         "name": "BANK BNI",
         "code": "009",
-        "color": "#ff9933;#008000"
+        "color": "0xff9933;0x008000"
     },
     {
         "name": "BANK BNI SYARIAH",
         "code": "427",
-        "color": "#ff9933;#008000"
+        "color": "0xff9933;0x008000"
     },
     {
         "name": "BANK DANAMON",
         "code": "011",
-        "color": "#ff4500;#ff4500"
+        "color": "0xff4500;0xff4500"
     },
     {
         "name": "PERMATA BANK",
         "code": "013",
-        "color": "#008000;#ff0000"
+        "color": "0x008000;0xff0000"
     },
     {
         "name": "BANK BCA",
         "code": "014",
-        "color": "#0892d0;#0892d0"
+        "color": "0x0892d0;0x0892d0"
     },
     {
         "name": "BANK BII",
@@ -76,17 +76,17 @@
     {
         "name": "AMERICAN EXPRESS BANK LTD",
         "code": "030",
-        "color": "#0892d0;#0892d0"
+        "color": "0x0892d0;0x0892d0"
     },
     {
         "name": "CITIBANK N.A.",
         "code": "031",
-        "color": "#0892d0;#0892d0"
+        "color": "0x0892d0;0x0892d0"
     },
     {
         "name": "JP. MORGAN CHASE BANK, N.A.",
         "code": "032",
-        "color": "#696969;#020202"
+        "color": "0x696969;0x020202"
     },
     {
         "name": "BANK OF AMERICA, N.A",
@@ -121,7 +121,7 @@
     {
         "name": "THE HONGKONG & SHANGHAI B.C.",
         "code": "041",
-        "color": "#020202;#020202"
+        "color": "0x020202;0x020202"
     },
     {
         "name": "THE BANK OF TOKYO MITSUBISHI UFJ LTD",
