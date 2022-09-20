@@ -19,10 +19,69 @@ import (
 type authHandler struct {
 	authService service.AuthService
 	jwtService  service.JwtService
+	userService service.UserService
 }
 
-func NewAuthHandler(authService service.AuthService, jwtService service.JwtService) *authHandler {
-	return &authHandler{authService, jwtService}
+func NewAuthHandler(authService service.AuthService, jwtService service.JwtService, userService service.UserService) *authHandler {
+	return &authHandler{authService, jwtService, userService}
+}
+
+func (h *authHandler) ReSendEmail(c *gin.Context) {
+	tokenString := c.Param("token")
+
+	token, err := h.jwtService.ValidateToken(tokenString)
+
+	if err != nil {
+		errors := helper.FormatValidationError(err)
+
+		errorMessage := gin.H{"errors": errors}
+
+		response := helper.APIResponse("Re-Send Email Failed", http.StatusUnprocessableEntity, "Failed", errorMessage)
+		c.JSON(http.StatusUnprocessableEntity, response)
+		return
+	}
+
+	claim, ok := token.Claims.(jwt.MapClaims)
+
+	if !ok || !token.Valid {
+		errors := helper.FormatValidationError(err)
+
+		errorMessage := gin.H{"errors": errors}
+
+		response := helper.APIResponse("Re-Send Email Failed", http.StatusUnprocessableEntity, "Failed", errorMessage)
+		c.JSON(http.StatusUnprocessableEntity, response)
+		return
+	}
+	userId := int(claim["user_id"].(float64))
+
+	user, err := h.userService.GetUserById(userId)
+
+	if err != nil {
+		errors := helper.FormatValidationError(err)
+
+		errorMessage := gin.H{"errors": errors}
+
+		response := helper.APIResponse("Re-Send Email Failed", http.StatusUnprocessableEntity, "Failed", errorMessage)
+		c.JSON(http.StatusUnprocessableEntity, response)
+		return
+	}
+
+	err = h.authService.SendEmail(user[0], tokenString)
+
+	if err != nil {
+		errors := helper.FormatValidationError(err)
+
+		errorMessage := gin.H{"errors": errors}
+
+		response := helper.APIResponse("Re-Send Email Failed", http.StatusUnprocessableEntity, "Failed", errorMessage)
+		c.JSON(http.StatusUnprocessableEntity, response)
+		return
+	}
+
+	response := helper.APIResponse("Re-Send Email Success", http.StatusOK, "success", nil)
+
+	c.JSON(http.StatusOK, response)
+
 }
 
 func (h *authHandler) VerifiedUser(c *gin.Context) {

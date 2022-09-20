@@ -56,7 +56,7 @@ func main() {
 	trxCategoryHandler := handler.NewTrxCategoryHandler(trxCategoryService)
 	transactionHandler := handler.NewTransactionHandler(transactionService)
 	userHandler := handler.NewUserHandler(userService)
-	authHandler := handler.NewAuthHandler(authService, jwtService)
+	authHandler := handler.NewAuthHandler(authService, jwtService, userService)
 	bankAccountHandler := handler.NewBankAccountHandler(bankAccountService)
 	bankHandler := handler.NewBankHandler(bankService)
 
@@ -127,6 +127,7 @@ func main() {
 	api.GET("/getbankAccountbynotes/:notes", authMiddleware(jwtService, userService), bankAccountHandler.GetBankAccountByNotes)
 	api.GET("/getbankdata", authMiddleware(jwtService, userService), bankHandler.GetBankData)
 	api.GET("/verifiedaccount/:token", authHandler.VerifiedUser)
+	api.GET("/resendemail/:token", authHandler.ReSendEmail)
 
 	router.Run()
 
