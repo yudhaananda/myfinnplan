@@ -4,6 +4,8 @@ import (
 	"encoding/json"
 	"myfinnplan/entity"
 	"os"
+	"sort"
+	"strconv"
 )
 
 type BankService interface {
@@ -11,14 +13,13 @@ type BankService interface {
 }
 
 type bankService struct {
-
 }
 
-func NewBankService() *bankService{
+func NewBankService() *bankService {
 	return &bankService{}
 }
 
-func (s *bankService) GetBankData() ([]entity.Bank, error){
+func (s *bankService) GetBankData() ([]entity.Bank, error) {
 	data, err := os.ReadFile("bank.json")
 
 	if err != nil {
@@ -28,6 +29,18 @@ func (s *bankService) GetBankData() ([]entity.Bank, error){
 	var bank []entity.Bank
 
 	err = json.Unmarshal(data, &bank)
+
+	sort.Slice(bank, func(i, j int) bool {
+		banki, err := strconv.Atoi(bank[i].Code)
+		if err != nil {
+			return false
+		}
+		bankj, err := strconv.Atoi(bank[j].Code)
+		if err != nil {
+			return false
+		}
+		return banki < bankj
+	})
 
 	if err != nil {
 		return bank, err

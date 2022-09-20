@@ -16,12 +16,12 @@
     {
         "name": "BANK BNI",
         "code": "009",
-        "color": "0xff9933;0x008000"
+        "color": "0xff9933;0xff4500"
     },
     {
         "name": "BANK BNI SYARIAH",
         "code": "427",
-        "color": "0xff9933;0x008000"
+        "color": "0xff9933;0xff4500"
     },
     {
         "name": "BANK DANAMON",
@@ -176,7 +176,7 @@
     {
         "name": "BANK UOB INDONESIA",
         "code": "058",
-        "color": "blue"
+        "color": "null"
     },
     {
         "name": "KOREA EXCHANGE BANK DANAMON",
@@ -291,7 +291,7 @@
     {
         "name": "BANK RIAU",
         "code": "119",
-        "color": "red"
+        "color": "null"
     },
     {
         "name": "BANK SUMSEL",
@@ -481,7 +481,7 @@
     {
         "name": "BANK SYARIAH MANDIRI",
         "code": "451",
-        "color": "yellow"
+        "color": "null"
     },
     {
         "name": "BANK BISNIS INTERNASIONAL",
@@ -702,5 +702,10 @@
         "name": "LINKAJA",
         "code": "911",
         "color": "null"
+    },
+    {
+        "name": "My Finn Account",
+        "code": "000",
+        "color": "0x1e88e5;0x87ceeb"
     }
 ]
