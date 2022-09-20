@@ -180,7 +180,7 @@ func (h *userAccountHandler) GetUserAccountByAccountName(c *gin.Context) {
 }
 
 func (h *userAccountHandler) GetUserAccountByUserId(c *gin.Context) {
-	userID := c.Param("createdby")
+	userID := c.Param("userId")
 
 	userIdInt, err := strconv.Atoi(userID)
 
