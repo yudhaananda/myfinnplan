@@ -6,6 +6,7 @@ type BankAccountInput struct {
 	BankCode       string  `json:"bankcode" binding:"required"`
 	Amount         float64 `json:"amount" binding:"required"`
 	Notes          string  `json:"notes" binding:"required"`
+	IsDebit        bool    `json:"isdebit"`
 }
 
 type BankAccountEditInput struct {
@@ -15,4 +16,5 @@ type BankAccountEditInput struct {
 	BankCode       string  `json:"bankcode" binding:"required"`
 	Amount         float64 `json:"amount" binding:"required"`
 	Notes          string  `json:"notes" binding:"required"`
+	IsDebit        bool    `json:"isdebit"`
 }

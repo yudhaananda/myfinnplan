@@ -9,6 +9,7 @@ type BankAccount struct {
 	BankCode       string
 	Amount         float64
 	Notes          string
+	IsDebit        bool
 	CreatedBy      string
 	CreatedDate    time.Time
 	UpdatedBy      string
