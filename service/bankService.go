@@ -10,6 +10,7 @@ import (
 
 type BankService interface {
 	GetBankData() ([]entity.Bank, error)
+	GetBankByCode(code string) (entity.Bank, error)
 }
 
 type bankService struct {
@@ -17,6 +18,32 @@ type bankService struct {
 
 func NewBankService() *bankService {
 	return &bankService{}
+}
+
+func (s *bankService) GetBankByCode(code string) (entity.Bank, error) {
+	data, err := os.ReadFile("bank.json")
+	if err != nil {
+		return entity.Bank{}, err
+	}
+
+	var banks []entity.Bank
+
+	err = json.Unmarshal(data, &banks)
+
+	if err != nil {
+		return entity.Bank{}, err
+	}
+
+	bank := entity.Bank{}
+
+	for _, value := range banks {
+		if value.Code == code {
+			bank = value
+		}
+	}
+
+	return bank, nil
+
 }
 
 func (s *bankService) GetBankData() ([]entity.Bank, error) {

@@ -124,6 +124,15 @@ func (s *bankAccountService) GetBankAccountByAccountIdOwner(id int) ([]entity.Ba
 		return bankAccount, errors.New("bankAccount not found")
 	}
 
+	for i := 0; i < len(bankAccount); i++ {
+		bankService := NewBankService()
+		temp, err := bankService.GetBankByCode(bankAccount[i].BankCode)
+		if err != nil {
+			return bankAccount, err
+		}
+		bankAccount[i].Bank = temp
+	}
+
 	return bankAccount, nil
 }
 func (s *bankAccountService) GetBankAccountByBankCode(bankCode string) ([]entity.BankAccount, error) {

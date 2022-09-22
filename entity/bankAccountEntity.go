@@ -5,8 +5,10 @@ import "time"
 type BankAccount struct {
 	Id             int `gorm:"primarykey;autoIncrement:true"`
 	UserAccountId  int
+	UserAccount    UserAccount
 	AccountIdOwner int
 	BankCode       string
+	Bank           Bank
 	Amount         float64
 	Notes          string
 	IsDebit        bool
