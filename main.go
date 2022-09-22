@@ -121,7 +121,7 @@ func main() {
 	api.GET("/deletebankAccount/:id", authMiddleware(jwtService, userService), bankAccountHandler.DeleteBankAccount)
 	api.GET("/getbankAccountbyid/:id", authMiddleware(jwtService, userService), bankAccountHandler.GetBankAccountById)
 	api.GET("/getbankAccountbyaccountcode/:accountCode", authMiddleware(jwtService, userService), bankAccountHandler.GetBankAccountByAccountCode)
-	api.GET("/getbankAccountbyaccountnameowner/:accountNameOwner", authMiddleware(jwtService, userService), bankAccountHandler.GetBankAccountByAccountNameOwner)
+	api.GET("/getbankAccountbyaccountidowner/:id", authMiddleware(jwtService, userService), bankAccountHandler.GetBankAccountByAccountIdOwner)
 	api.GET("/getbankAccountbybankcode/:bankCode", authMiddleware(jwtService, userService), bankAccountHandler.GetBankAccountByBankCode)
 	api.GET("/getbankAccountbyamount/:amount", authMiddleware(jwtService, userService), bankAccountHandler.GetBankAccountByAmount)
 	api.GET("/getbankAccountbynotes/:notes", authMiddleware(jwtService, userService), bankAccountHandler.GetBankAccountByNotes)

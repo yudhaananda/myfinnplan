@@ -13,7 +13,7 @@ type BankAccountService interface {
 	EditBankAccount(input input.BankAccountEditInput, userName string) (entity.BankAccount, error)
 	GetBankAccountById(id int) ([]entity.BankAccount, error)
 	GetBankAccountByAccountCode(accountCode string) ([]entity.BankAccount, error)
-	GetBankAccountByAccountNameOwner(accountNameOwner string) ([]entity.BankAccount, error)
+	GetBankAccountByAccountIdOwner(id int) ([]entity.BankAccount, error)
 	GetBankAccountByBankCode(bankCode string) ([]entity.BankAccount, error)
 	GetBankAccountByAmount(amount float64) ([]entity.BankAccount, error)
 	GetBankAccountByNotes(notes string) ([]entity.BankAccount, error)
@@ -112,9 +112,9 @@ func (s *bankAccountService) GetBankAccountByAccountCode(accountCode string) ([]
 
 	return bankAccount, nil
 }
-func (s *bankAccountService) GetBankAccountByAccountNameOwner(accountNameOwner string) ([]entity.BankAccount, error) {
+func (s *bankAccountService) GetBankAccountByAccountIdOwner(id int) ([]entity.BankAccount, error) {
 
-	bankAccount, err := s.bankAccountRepository.FindByAccountNameOwner(accountNameOwner)
+	bankAccount, err := s.bankAccountRepository.FindByAccountIdOwner(id)
 
 	if err != nil {
 		return bankAccount, err

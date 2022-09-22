@@ -11,7 +11,7 @@ type BankAccountRepository interface {
 	Edit(bankAccount entity.BankAccount) (entity.BankAccount, error)
 	FindById(id int) ([]entity.BankAccount, error)
 	FindByAccountCode(accountCode string) ([]entity.BankAccount, error)
-	FindByAccountNameOwner(accountNameOwner string) ([]entity.BankAccount, error)
+	FindByAccountIdOwner(id int) ([]entity.BankAccount, error)
 	FindByBankCode(bankCode string) ([]entity.BankAccount, error)
 	FindByAmount(amount float64) ([]entity.BankAccount, error)
 	FindByNotes(notes string) ([]entity.BankAccount, error)
@@ -69,10 +69,10 @@ func (r *bankAccountRepository) FindByAccountCode(accountCode string) ([]entity.
 
 	return bankAccount, nil
 }
-func (r *bankAccountRepository) FindByAccountNameOwner(accountNameOwner string) ([]entity.BankAccount, error) {
+func (r *bankAccountRepository) FindByAccountIdOwner(id int) ([]entity.BankAccount, error) {
 	var bankAccount []entity.BankAccount
 
-	err := r.db.Where("account_name_owner = ? AND deleted_by = ?", accountNameOwner, "").Find(&bankAccount).Error
+	err := r.db.Where("account_id_owner = ? AND deleted_by = ?", id, "").Find(&bankAccount).Error
 
 	if err != nil {
 		return bankAccount, err

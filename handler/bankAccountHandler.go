@@ -161,10 +161,20 @@ func (h *bankAccountHandler) GetBankAccountByAccountCode(c *gin.Context) {
 
 	c.JSON(http.StatusOK, response)
 }
-func (h *bankAccountHandler) GetBankAccountByAccountNameOwner(c *gin.Context) {
-	accountNameOwner := c.Param("accountNameOwner")
+func (h *bankAccountHandler) GetBankAccountByAccountIdOwner(c *gin.Context) {
+	accountIdOwner := c.Param("id")
 
-	bankAccount, err := h.bankAccountService.GetBankAccountByAccountNameOwner(accountNameOwner)
+	idInt, err := strconv.Atoi(accountIdOwner)
+
+	if err != nil {
+		errorMessage := gin.H{"errors": err.Error()}
+
+		response := helper.APIResponse("Get BankAccount Failed", http.StatusUnprocessableEntity, "Failed", errorMessage)
+		c.JSON(http.StatusUnprocessableEntity, response)
+		return
+	}
+
+	bankAccount, err := h.bankAccountService.GetBankAccountByAccountIdOwner(idInt)
 
 	if err != nil {
 		errorMessage := gin.H{"errors": err.Error()}
