@@ -8,7 +8,7 @@ type BankAccountInput struct {
 	BankCode       string    `json:"bankcode" binding:"required"`
 	Amount         float64   `json:"amount" binding:"required"`
 	Notes          string    `json:"notes" binding:"required"`
-	ExpiredDate    time.Time `json:"expireddate" binding:"required"`
+	ExpiredDate    time.Time `json:"expireddate"`
 	IsDebit        bool      `json:"isdebit"`
 }
 
@@ -19,6 +19,6 @@ type BankAccountEditInput struct {
 	BankCode       string    `json:"bankcode" binding:"required"`
 	Amount         float64   `json:"amount" binding:"required"`
 	Notes          string    `json:"notes" binding:"required"`
-	ExpiredDate    time.Time `json:"expireddate" binding:"required"`
+	ExpiredDate    time.Time `json:"expireddate"`
 	IsDebit        bool      `json:"isdebit"`
 }
