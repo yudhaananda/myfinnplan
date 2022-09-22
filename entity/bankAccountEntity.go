@@ -8,7 +8,7 @@ type BankAccount struct {
 	UserAccount    UserAccount
 	AccountIdOwner int
 	BankCode       string
-	Bank           Bank
+	Bank           Bank `gorm:"foreignkey:Code"`
 	Amount         float64
 	Notes          string
 	IsDebit        bool
