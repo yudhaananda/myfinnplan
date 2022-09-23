@@ -29,7 +29,6 @@ func NewTrxCategoryService(trxCategoryRepository repository.TrxCategoryRepositor
 
 func (s *trxCategoryService) CreateTrxCategory(input input.TrxCategoryInput, userName string) (entity.TrxCategory, error) {
 	trxCategory := entity.TrxCategory{
-		CategoryCode: input.CategoryCode,
 		CategoryName: input.CategoryName,
 		CreatedBy:    userName,
 		CreatedDate:  time.Now(),
@@ -55,7 +54,6 @@ func (s *trxCategoryService) EditTrxCategory(input input.TrxCategoryEditInput, u
 
 	trxCategory := entity.TrxCategory{
 		Id:           input.Id,
-		CategoryCode: input.CategoryCode,
 		CategoryName: input.CategoryName,
 		CreatedBy:    oldTrxCategory.CreatedBy,
 		CreatedDate:  oldTrxCategory.CreatedDate,

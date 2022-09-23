@@ -5,7 +5,7 @@ import "time"
 type Transaction struct {
 	Id            int `gorm:"primarykey;autoIncrement:true"`
 	BankAccountId int
-	CategoryCode  string
+	CategoryId    int
 	Amount        float64
 	Notes         string
 	CreatedBy     string

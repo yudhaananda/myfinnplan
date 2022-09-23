@@ -32,7 +32,7 @@ func NewTransactionService(transactionRepository repository.TransactionRepositor
 func (s *transactionService) CreateTransaction(input input.TransactionInput, userName string) (entity.Transaction, error) {
 	transaction := entity.Transaction{
 		BankAccountId: input.BankAccountId,
-		CategoryCode:  input.CategoryCode,
+		CategoryId:    input.CategoryId,
 		Amount:        input.Amount,
 		Notes:         input.Notes,
 		CreatedBy:     userName,
@@ -60,7 +60,7 @@ func (s *transactionService) EditTransaction(input input.TransactionEditInput, u
 	transaction := entity.Transaction{
 		Id:            input.Id,
 		BankAccountId: input.BankAccountId,
-		CategoryCode:  input.CategoryCode,
+		CategoryId:    input.CategoryId,
 		Amount:        input.Amount,
 		Notes:         input.Notes,
 		CreatedBy:     oldTransaction.CreatedBy,
