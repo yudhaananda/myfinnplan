@@ -16,7 +16,7 @@ type TransactionService interface {
 	GetTransactionByCategoryCode(categoryCode string) ([]entity.Transaction, error)
 	GetTransactionByAmount(amount float64) ([]entity.Transaction, error)
 	GetTransactionByNotes(notes string) ([]entity.Transaction, error)
-
+	GetTransactionByUserId(id int) ([]entity.Transaction, error)
 	GetAllTransaction() ([]entity.Transaction, error)
 	DeleteTransaction(id int, userName string) (entity.Transaction, error)
 }
@@ -88,6 +88,9 @@ func (s *transactionService) GetTransactionById(id int) ([]entity.Transaction, e
 	}
 
 	return transaction, nil
+}
+func (s *transactionService) GetTransactionByUserId(id int) ([]entity.Transaction, error) {
+	return s.transactionRepository.FindByUserId(id)
 }
 func (s *transactionService) GetTransactionByBankAccountId(bankAccountId int) ([]entity.Transaction, error) {
 

@@ -14,7 +14,7 @@ type TransactionRepository interface {
 	FindByCategoryCode(categoryCode string) ([]entity.Transaction, error)
 	FindByAmount(amount float64) ([]entity.Transaction, error)
 	FindByNotes(notes string) ([]entity.Transaction, error)
-
+	FindByUserId(id int) ([]entity.Transaction, error)
 	FindAll() ([]entity.Transaction, error)
 }
 
@@ -84,6 +84,17 @@ func (r *transactionRepository) FindByAmount(amount float64) ([]entity.Transacti
 
 	err := r.db.Where("amount = ? AND deleted_by = ?", amount, "").Find(&transaction).Error
 
+	if err != nil {
+		return transaction, err
+	}
+
+	return transaction, nil
+}
+
+func (r *transactionRepository) FindByUserId(id int) ([]entity.Transaction, error) {
+	var transaction []entity.Transaction
+
+	err := r.db.Model(&transaction).Joins("bank_accounts on transactions.bank_account_id = bank_accounts.id").Where("bank_accounts.user_account_id = ? AND transactions.deleted_by = ?", id, "").Find(&transaction).Error
 	if err != nil {
 		return transaction, err
 	}

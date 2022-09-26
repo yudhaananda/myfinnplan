@@ -144,6 +144,32 @@ func (h *transactionHandler) GetTransactionById(c *gin.Context) {
 
 	c.JSON(http.StatusOK, response)
 }
+func (h *transactionHandler) GetTransactionByUserId(c *gin.Context) {
+	userId := c.Param("userId")
+	userIdInt, err := strconv.Atoi(userId)
+
+	if err != nil {
+		errorMessage := gin.H{"errors": err.Error()}
+
+		response := helper.APIResponse("Get Transaction Failed", http.StatusUnprocessableEntity, "Failed", errorMessage)
+		c.JSON(http.StatusUnprocessableEntity, response)
+		return
+	}
+
+	transaction, err := h.transactionService.GetTransactionByUserId(userIdInt)
+
+	if err != nil {
+		errorMessage := gin.H{"errors": err.Error()}
+
+		response := helper.APIResponse("Get Transaction Failed", http.StatusUnprocessableEntity, "Failed", errorMessage)
+		c.JSON(http.StatusUnprocessableEntity, response)
+		return
+	}
+
+	response := helper.APIResponse("Get Transaction Success", http.StatusOK, "Success", transaction)
+
+	c.JSON(http.StatusOK, response)
+}
 func (h *transactionHandler) GetTransactionByBankAccountId(c *gin.Context) {
 	bankAccountId := c.Param("bankAccountId")
 	bankAccountIdInt, err := strconv.Atoi(bankAccountId)
