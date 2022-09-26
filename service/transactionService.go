@@ -90,7 +90,20 @@ func (s *transactionService) GetTransactionById(id int) ([]entity.Transaction, e
 	return transaction, nil
 }
 func (s *transactionService) GetTransactionByUserId(id int) ([]entity.Transaction, error) {
-	return s.transactionRepository.FindByUserId(id)
+	transactions, err := s.transactionRepository.FindByUserId(id)
+
+	if err != nil {
+		return transactions, err
+	}
+	for i := 0; i < len(transactions); i++ {
+		bankService := NewBankService()
+		temp, err := bankService.GetBankByCode(transactions[i].BankAccount.BankCode)
+		if err != nil {
+			return transactions, err
+		}
+		transactions[i].BankAccount.Bank = temp
+	}
+	return transactions, nil
 }
 func (s *transactionService) GetTransactionByBankAccountId(bankAccountId int) ([]entity.Transaction, error) {
 
