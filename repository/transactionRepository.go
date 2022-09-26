@@ -99,6 +99,15 @@ func (r *transactionRepository) FindByUserId(id int) ([]entity.Transaction, erro
 		return transaction, err
 	}
 
+	for i := 0; i < len(transaction); i++ {
+		userAccount := NewUserAccountRepository(r.db)
+		temp, err := userAccount.FindById(transaction[i].BankAccount.UserAccountId)
+		if err != nil {
+			return transaction, err
+		}
+		transaction[i].BankAccount.UserAccount = temp[0]
+	}
+
 	return transaction, nil
 }
 func (r *transactionRepository) FindByNotes(notes string) ([]entity.Transaction, error) {
