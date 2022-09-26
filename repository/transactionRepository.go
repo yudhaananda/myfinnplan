@@ -94,7 +94,7 @@ func (r *transactionRepository) FindByAmount(amount float64) ([]entity.Transacti
 func (r *transactionRepository) FindByUserId(id int) ([]entity.Transaction, error) {
 	var transaction []entity.Transaction
 
-	err := r.db.Table("transactions").Joins("JOIN bank_accounts on transactions.bank_account_id = bank_accounts.id").Where("bank_accounts.user_account_id = ? AND transactions.deleted_by = ?", id, "").Find(&transaction).Error
+	err := r.db.Table("transactions").Joins("JOIN bank_accounts on transactions.bank_account_id = bank_accounts.id").Where("bank_accounts.account_id_owner = ? AND transactions.deleted_by = ?", id, "").Find(&transaction).Error
 	if err != nil {
 		return transaction, err
 	}
