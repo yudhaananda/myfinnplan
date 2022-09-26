@@ -116,7 +116,7 @@ func (r *transactionRepository) FindByNotes(notes string) ([]entity.Transaction,
 func (r *transactionRepository) FindAll() ([]entity.Transaction, error) {
 	var transactions []entity.Transaction
 
-	err := r.db.Where("deleted_by = ?", "").Find(&transactions).Error
+	err := r.db.Where("deleted_by = ?", "").Preload("BankAccount").Find(&transactions).Error
 
 	if err != nil {
 		return transactions, err
