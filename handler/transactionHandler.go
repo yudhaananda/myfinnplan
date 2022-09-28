@@ -2,6 +2,7 @@ package handler
 
 import (
 	"myfinnplan/entity"
+	"myfinnplan/formatter"
 	"myfinnplan/helper"
 	"myfinnplan/input"
 	"myfinnplan/service"
@@ -192,7 +193,9 @@ func (h *transactionHandler) GetTransactionByBankAccountId(c *gin.Context) {
 		return
 	}
 
-	response := helper.APIResponse("Get Transaction Success", http.StatusOK, "Success", transaction)
+	TrxFormat := formatter.FormatTransaction(transaction)
+
+	response := helper.APIResponse("Get Transaction Success", http.StatusOK, "Success", TrxFormat)
 
 	c.JSON(http.StatusOK, response)
 }
