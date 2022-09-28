@@ -2,6 +2,7 @@ package handler
 
 import (
 	"myfinnplan/entity"
+	"myfinnplan/formatter"
 	"myfinnplan/helper"
 	"myfinnplan/input"
 	"myfinnplan/service"
@@ -184,7 +185,8 @@ func (h *bankAccountHandler) GetBankAccountByAccountIdOwner(c *gin.Context) {
 		return
 	}
 
-	response := helper.APIResponse("Get BankAccount Success", http.StatusOK, "Success", bankAccount)
+	bankAccountFormat := formatter.FormatBank(bankAccount)
+	response := helper.APIResponse("Get BankAccount Success", http.StatusOK, "Success", bankAccountFormat)
 
 	c.JSON(http.StatusOK, response)
 }
