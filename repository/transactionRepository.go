@@ -60,7 +60,7 @@ func (r *transactionRepository) FindById(id int) ([]entity.Transaction, error) {
 func (r *transactionRepository) FindByBankAccountId(bankAccountId int) ([]entity.Transaction, error) {
 	var transaction []entity.Transaction
 
-	err := r.db.Where("bank_account_id = ? AND deleted_by = ?", bankAccountId, "").Find(&transaction).Error
+	err := r.db.Where("bank_account_id = ? AND deleted_by = ?, AND createdDate = DATE_SUB(CURDATE(), INTERVAL 1 WEEK)", bankAccountId, "").Find(&transaction).Error
 
 	if err != nil {
 		return transaction, err
