@@ -11,7 +11,7 @@ import (
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/reflection"
 	"google.golang.org/protobuf/types/known/timestamppb"
-	"gorm.io/driver/mysql"
+	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
 )
 
@@ -21,13 +21,19 @@ type user struct {
 }
 
 func main() {
+
+	// err := godotenv.Load(".env")
+	// if err != nil {
+	// 	log.Fatal(err.Error())
+	// }
 	env := entity.SetEnv()
 
 	dsn := fmt.Sprintf("%s:%s@tcp(%s:%s)/%s?charset=utf8mb4&parseTime=true&loc=Local", env.DB_USER, env.DB_PASS, env.DB_HOST, env.DB_PORT, env.DB_NAME)
-	db, err := gorm.Open(mysql.Open(dsn), &gorm.Config{})
+	fmt.Println(dsn)
+	db, err := gorm.Open(postgres.Open(dsn), &gorm.Config{})
 
 	if err != nil {
-		panic(err)
+		panic(err.Error())
 	}
 
 	listener, err := net.Listen("tcp", ":4040")
