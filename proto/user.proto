@@ -1,0 +1,33 @@
+syntax = "proto3";
+
+option go_package = "./userproto";
+
+import "google/protobuf/timestamp.proto";
+
+package userproto;
+service UserService {
+    rpc GetAllUSer (Empty) returns (UserList);
+}
+
+message Empty {
+}
+
+message UserList {
+    repeated User user =1;
+}
+
+message User {
+    int64 id =1;
+    string userName =2;
+    string password =3;
+    string email = 4;
+    string telephone = 5;
+    string photo = 6;
+    bool isVerified = 7;
+    string createdBy =8;
+    google.protobuf.Timestamp createdDate = 9;
+    google.protobuf.Timestamp updatedDate = 10;
+    google.protobuf.Timestamp deletedDate = 11;
+    string updatedBy = 12;
+    string deletedBy = 13;
+}
