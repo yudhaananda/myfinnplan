@@ -25,7 +25,7 @@ func FormatTransaction(transaction []entity.Transaction) TransactionFormatter {
 		_, week := value.CreatedDate.ISOWeek()
 		_, weekMin := time.Date(value.CreatedDate.Year(), value.CreatedDate.Month(), 1, 0, 0, 0, 0, time.Local).ISOWeek()
 
-		weekName := "week " + strconv.Itoa(week-weekMin) + " " + value.CreatedDate.Month().String() + " " + strconv.Itoa(value.CreatedDate.Year())
+		weekName := "week " + strconv.Itoa(week-weekMin+1) + " " + value.CreatedDate.Month().String() + " " + strconv.Itoa(value.CreatedDate.Year())
 		monthName := value.CreatedDate.Month().String() + " " + strconv.Itoa(value.CreatedDate.Year())
 
 		result.Week[weekName] = append(result.Week[weekName], value)
