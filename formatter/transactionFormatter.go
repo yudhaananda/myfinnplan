@@ -22,9 +22,21 @@ func FormatTransaction(transaction []entity.Transaction) TransactionFormatter {
 	result.MonthTotal = make(map[string]float64)
 
 	for _, value := range transaction {
-		_, week := value.CreatedDate.ISOWeek()
-		_, weekMin := time.Date(value.CreatedDate.Year(), value.CreatedDate.Month(), 1, 0, 0, 0, 0, time.Local).ISOWeek()
+		year, week := value.CreatedDate.ISOWeek()
+		if year < value.CreatedDate.Year() {
+			week = 0
+		}
 
+		temp := value.CreatedDate
+		for year > value.CreatedDate.Year() {
+			temp = temp.AddDate(0, 0, -1)
+			year, week = temp.ISOWeek()
+			week += 1
+		}
+		yearMin, weekMin := time.Date(value.CreatedDate.Year(), value.CreatedDate.Month(), 1, 0, 0, 0, 0, time.Local).ISOWeek()
+		if yearMin < value.CreatedDate.Year() {
+			weekMin = 0
+		}
 		weekName := "week " + strconv.Itoa(week-weekMin+1) + " " + value.CreatedDate.Month().String() + " " + strconv.Itoa(value.CreatedDate.Year())
 		monthName := value.CreatedDate.Month().String() + " " + strconv.Itoa(value.CreatedDate.Year())
 
