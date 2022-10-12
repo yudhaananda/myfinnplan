@@ -133,7 +133,7 @@ func main() {
 	api.GET("/getbankAccountbynotes/:notes", authMiddleware(jwtService, userService), bankAccountHandler.GetBankAccountByNotes)
 	api.GET("/getbankdata", authMiddleware(jwtService, userService), bankHandler.GetBankData)
 	api.GET("/verifiedaccount/:token", authHandler.VerifiedUser)
-	api.GET("/resendemail/:token", authHandler.ReSendEmail)
+	api.GET("/resendemail/:id", authHandler.ReSendEmail)
 
 	router.Run()
 

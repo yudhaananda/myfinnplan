@@ -10,6 +10,7 @@ import (
 	"myfinnplan/service"
 	"net/http"
 	"os"
+	"strconv"
 	"time"
 
 	"github.com/dgrijalva/jwt-go"
@@ -27,46 +28,29 @@ func NewAuthHandler(authService service.AuthService, jwtService service.JwtServi
 }
 
 func (h *authHandler) ReSendEmail(c *gin.Context) {
-	tokenString := c.Param("token")
-
-	token, err := h.jwtService.ValidateToken(tokenString)
+	id, err := strconv.Atoi(c.Param("id"))
 
 	if err != nil {
-		errors := helper.FormatValidationError(err)
-
-		errorMessage := gin.H{"errors": errors}
+		errorMessage := gin.H{"errors": err.Error()}
 
 		response := helper.APIResponse("Re-Send Email Failed", http.StatusUnprocessableEntity, "Failed", errorMessage)
 		c.JSON(http.StatusUnprocessableEntity, response)
 		return
 	}
 
-	claim, ok := token.Claims.(jwt.MapClaims)
+	loggedinUser, err := h.userService.GetUserById(id)
 
-	if !ok || !token.Valid {
-		errors := helper.FormatValidationError(err)
-
-		errorMessage := gin.H{"errors": errors}
-
-		response := helper.APIResponse("Re-Send Email Failed", http.StatusUnprocessableEntity, "Failed", errorMessage)
-		c.JSON(http.StatusUnprocessableEntity, response)
-		return
-	}
-	userId := int(claim["user_id"].(float64))
-
-	user, err := h.userService.GetUserById(userId)
+	token, err := h.jwtService.GenerateToken(loggedinUser[0].Id, loggedinUser[0].UserName)
 
 	if err != nil {
-		errors := helper.FormatValidationError(err)
-
-		errorMessage := gin.H{"errors": errors}
+		errorMessage := gin.H{"errors": err.Error()}
 
 		response := helper.APIResponse("Re-Send Email Failed", http.StatusUnprocessableEntity, "Failed", errorMessage)
 		c.JSON(http.StatusUnprocessableEntity, response)
 		return
 	}
 
-	err = h.authService.SendEmail(user[0], tokenString)
+	err = h.authService.SendEmail(loggedinUser[0], token)
 
 	if err != nil {
 		errors := helper.FormatValidationError(err)
