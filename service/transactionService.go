@@ -64,6 +64,7 @@ func (s *transactionService) EditTransaction(input input.TransactionEditInput, u
 		CreatedBy:     oldTransaction.CreatedBy,
 		CreatedDate:   oldTransaction.CreatedDate,
 		UpdatedBy:     userName,
+		UpdatedDate:   time.Now(),
 	}
 
 	newTransaction, err := s.transactionRepository.Edit(transaction)

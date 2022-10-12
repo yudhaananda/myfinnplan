@@ -58,6 +58,7 @@ func (s *trxCategoryService) EditTrxCategory(input input.TrxCategoryEditInput, u
 		CreatedBy:    oldTrxCategory.CreatedBy,
 		CreatedDate:  oldTrxCategory.CreatedDate,
 		UpdatedBy:    userName,
+		UpdatedDate:  time.Now(),
 	}
 
 	newTrxCategory, err := s.trxCategoryRepository.Edit(trxCategory)

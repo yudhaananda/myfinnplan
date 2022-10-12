@@ -73,6 +73,7 @@ func (s *bankAccountService) EditBankAccount(input input.BankAccountEditInput, u
 		CreatedBy:      oldBankAccount.CreatedBy,
 		CreatedDate:    oldBankAccount.CreatedDate,
 		UpdatedBy:      userName,
+		UpdatedDate:    time.Now(),
 	}
 
 	newBankAccount, err := s.bankAccountRepository.Edit(bankAccount)

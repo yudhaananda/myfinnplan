@@ -60,6 +60,7 @@ func (s *userAccountService) EditUserAccount(input input.UserAccountEditInput, u
 		CreatedBy:   oldUserAccount.CreatedBy,
 		CreatedDate: oldUserAccount.CreatedDate,
 		UpdatedBy:   user.UserName,
+		UpdatedDate: time.Now(),
 	}
 
 	newUserAccount, err := s.userAccountRepository.Edit(userAccount)
