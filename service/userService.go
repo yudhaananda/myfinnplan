@@ -2,10 +2,13 @@ package service
 
 import (
 	"errors"
+	"math/rand"
 	"myfinnplan/entity"
 	"myfinnplan/input"
 	"myfinnplan/repository"
 	"time"
+
+	"golang.org/x/crypto/bcrypt"
 )
 
 type UserService interface {
@@ -49,16 +52,36 @@ func (s *userService) EditUser(input input.UserEditInput, userName string) (enti
 	if err != nil {
 		return entity.User{}, err
 	}
+	if input.UserName != oldUsers[0].UserName {
+		checkUser, err := s.userRepository.FindByUserName(input.UserName)
+
+		if err != nil {
+			return entity.User{}, errors.New("error find user")
+		}
+
+		if len(checkUser) != 0 {
+			return entity.User{}, errors.New("UserName already used")
+		}
+	}
+
+	key := rand.Intn(9)
+	password, err := bcrypt.GenerateFromPassword([]byte(input.Password), key)
+	if err != nil {
+		return entity.User{}, errors.New("error encrypt password")
+	}
 
 	oldUser := oldUsers[0]
 
 	user := entity.User{
 		Id:          input.Id,
 		UserName:    input.UserName,
-		Password:    input.Password,
+		Password:    string(password),
+		Telephone:   input.Telephone,
+		Photo:       input.Photo,
 		CreatedBy:   oldUser.CreatedBy,
 		CreatedDate: oldUser.CreatedDate,
 		UpdatedBy:   userName,
+		UpdatedDate: time.Now(),
 	}
 
 	newUser, err := s.userRepository.Edit(user)

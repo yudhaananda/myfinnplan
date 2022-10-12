@@ -113,7 +113,7 @@ func main() {
 	api.GET("/gettransactionbynotes/:notes", authMiddleware(jwtService, userService), transactionHandler.GetTransactionByNotes)
 	api.GET("/gettransactionbyuserid/:userId", authMiddleware(jwtService, userService), transactionHandler.GetTransactionByUserId)
 	// api.POST("/createuser", authMiddleware(jwtService, userService), userHandler.CreateUser)
-	// api.POST("/edituser", authMiddleware(jwtService, userService), userHandler.EditUser)
+	api.POST("/edituser", authMiddleware(jwtService, userService), userHandler.EditUser)
 	api.GET("/getallusers", authMiddleware(jwtService, userService), userHandler.GetAllUsers)
 	api.GET("/deleteuser/:id", authMiddleware(jwtService, userService), userHandler.DeleteUser)
 	api.POST("/register", authHandler.RegisterUser)
