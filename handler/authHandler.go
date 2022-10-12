@@ -39,6 +39,13 @@ func (h *authHandler) ReSendEmail(c *gin.Context) {
 	}
 
 	loggedinUser, err := h.userService.GetUserById(id)
+	if err != nil {
+		errorMessage := gin.H{"errors": err.Error()}
+
+		response := helper.APIResponse("Re-Send Email Failed", http.StatusUnprocessableEntity, "Failed", errorMessage)
+		c.JSON(http.StatusUnprocessableEntity, response)
+		return
+	}
 
 	token, err := h.jwtService.GenerateToken(loggedinUser[0].Id, loggedinUser[0].UserName)
 
@@ -202,7 +209,7 @@ func (h *authHandler) Login(c *gin.Context) {
 	loggedinUser, err := h.authService.Login(input)
 
 	if err != nil {
-		errorMessage := gin.H{"errors": err.Error()}
+		errorMessage := gin.H{"errors": err.Error(), "id": loggedinUser.Id}
 
 		response := helper.APIResponse("Login Failed", http.StatusUnprocessableEntity, "Failed", errorMessage)
 		c.JSON(http.StatusUnprocessableEntity, response)
