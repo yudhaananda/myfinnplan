@@ -114,6 +114,7 @@ func main() {
 	api.GET("/gettransactionbyuserid/:userId", authMiddleware(jwtService, userService), transactionHandler.GetTransactionByUserId)
 	// api.POST("/createuser", authMiddleware(jwtService, userService), userHandler.CreateUser)
 	api.PUT("/edituser", authMiddleware(jwtService, userService), userHandler.EditUser)
+	api.PUT("/changepassword", authMiddleware(jwtService, userService), userHandler.ChangePassword)
 	api.GET("/getallusers", authMiddleware(jwtService, userService), userHandler.GetAllUsers)
 	api.GET("/deleteuser/:id", authMiddleware(jwtService, userService), userHandler.DeleteUser)
 	api.POST("/register", authHandler.RegisterUser)

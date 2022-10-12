@@ -19,6 +19,48 @@ func NewUserHandler(userService service.UserService) *userHandler {
 	return &userHandler{userService}
 }
 
+func (h *userHandler) ChangePassword(c *gin.Context) {
+	var input input.ChangePasswordInput
+
+	err := c.ShouldBindJSON(&input)
+
+	if err != nil {
+		errors := helper.FormatValidationError(err)
+
+		errorMessage := gin.H{"errors": errors}
+
+		response := helper.APIResponse("Create User Failed", http.StatusUnprocessableEntity, "Failed", errorMessage)
+		c.JSON(http.StatusUnprocessableEntity, response)
+		return
+	}
+
+	userLogin, ok := c.Get("currentUser")
+	if !ok {
+		errors := helper.FormatValidationError(err)
+
+		errorMessage := gin.H{"errors": errors}
+
+		response := helper.APIResponse("Edit User Failed", http.StatusUnprocessableEntity, "Failed", errorMessage)
+		c.JSON(http.StatusUnprocessableEntity, response)
+		return
+	}
+
+	user, err := h.userService.ChangePassword(input.Password, input.Id, userLogin.(entity.User).UserName)
+
+	if err != nil {
+
+		errorMessage := gin.H{"errors": err.Error()}
+
+		response := helper.APIResponse("Create User Failed", http.StatusUnprocessableEntity, "Failed", errorMessage)
+		c.JSON(http.StatusUnprocessableEntity, response)
+		return
+	}
+
+	response := helper.APIResponse("Create User Success", http.StatusOK, "Success", user)
+
+	c.JSON(http.StatusOK, response)
+}
+
 func (h *userHandler) CreateUser(c *gin.Context) {
 	var input input.UserInput
 

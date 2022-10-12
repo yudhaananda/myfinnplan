@@ -17,6 +17,11 @@ type UserEditInput struct {
 	Telephone string `json:"telephone"`
 }
 
+type ChangePasswordInput struct {
+	Id       int    `json:"id" binding:"required"`
+	Password string `json:"password" binding:"required"`
+}
+
 type LoginInput struct {
 	UserName string `json:"username" binding:"required"`
 	Password string `json:"password" binding:"required"`

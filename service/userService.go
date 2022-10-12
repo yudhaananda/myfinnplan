@@ -16,7 +16,7 @@ type UserService interface {
 	EditUser(input input.UserEditInput, userName string) (entity.User, error)
 	GetUserById(id int) ([]entity.User, error)
 	GetUserByUserName(userName string) ([]entity.User, error)
-
+	ChangePassword(password string, id int, userName string) (entity.User, error)
 	GetAllUser() ([]entity.User, error)
 	DeleteUser(id int, userName string) (entity.User, error)
 }
@@ -27,6 +27,45 @@ type userService struct {
 
 func NewUserService(userRepository repository.UserRepository) *userService {
 	return &userService{userRepository}
+}
+
+func (s *userService) ChangePassword(password string, id int, userName string) (entity.User, error) {
+	oldUsers, err := s.userRepository.FindById(id)
+
+	if err != nil {
+		return entity.User{}, err
+	}
+
+	if len(oldUsers) == 0 {
+		return entity.User{}, errors.New("user not found")
+	}
+	key := rand.Intn(9)
+	passwordEncrypt, err := bcrypt.GenerateFromPassword([]byte(password), key)
+	if err != nil {
+		return entity.User{}, errors.New("error encrypt password")
+	}
+
+	oldUser := oldUsers[0]
+
+	user := entity.User{
+		Id:          oldUser.Id,
+		UserName:    oldUser.UserName,
+		Password:    string(passwordEncrypt),
+		Email:       oldUser.Email,
+		Telephone:   oldUser.Telephone,
+		Photo:       oldUser.Photo,
+		CreatedBy:   oldUser.CreatedBy,
+		CreatedDate: oldUser.CreatedDate,
+		UpdatedBy:   userName,
+		UpdatedDate: time.Now(),
+	}
+	newUser, err := s.userRepository.Edit(user)
+
+	if err != nil {
+		return user, err
+	}
+
+	return newUser, nil
 }
 
 func (s *userService) CreateUser(input input.UserInput, userName string) (entity.User, error) {
@@ -52,6 +91,9 @@ func (s *userService) EditUser(input input.UserEditInput, userName string) (enti
 	if err != nil {
 		return entity.User{}, err
 	}
+	if len(oldUsers) == 0 {
+		return entity.User{}, errors.New("user not found")
+	}
 	if input.UserName != oldUsers[0].UserName {
 		checkUser, err := s.userRepository.FindByUserName(input.UserName)
 
@@ -64,18 +106,13 @@ func (s *userService) EditUser(input input.UserEditInput, userName string) (enti
 		}
 	}
 
-	key := rand.Intn(9)
-	password, err := bcrypt.GenerateFromPassword([]byte(input.Password), key)
-	if err != nil {
-		return entity.User{}, errors.New("error encrypt password")
-	}
-
 	oldUser := oldUsers[0]
 
 	user := entity.User{
 		Id:          input.Id,
 		UserName:    input.UserName,
-		Password:    string(password),
+		Password:    oldUser.Password,
+		Email:       oldUser.Email,
 		Telephone:   input.Telephone,
 		Photo:       input.Photo,
 		CreatedBy:   oldUser.CreatedBy,
