@@ -45,7 +45,7 @@ func (h *userHandler) ChangePassword(c *gin.Context) {
 		return
 	}
 
-	user, err := h.userService.ChangePassword(input.Password, input.Id, userLogin.(entity.User).UserName)
+	user, err := h.userService.ChangePassword(input.PasswordNew, input.PasswordOld, input.Id, userLogin.(entity.User).UserName)
 
 	if err != nil {
 

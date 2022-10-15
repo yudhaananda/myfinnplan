@@ -16,8 +16,9 @@ type UserEditInput struct {
 }
 
 type ChangePasswordInput struct {
-	Id       int    `json:"id" binding:"required"`
-	Password string `json:"password" binding:"required"`
+	Id          int    `json:"id" binding:"required"`
+	PasswordNew string `json:"passwordnew" binding:"required"`
+	PasswordOld string `json:"passwordold" binding:"required"`
 }
 
 type LoginInput struct {

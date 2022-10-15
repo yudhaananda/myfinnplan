@@ -16,7 +16,7 @@ type UserService interface {
 	EditUser(input input.UserEditInput, userName string) (entity.User, error)
 	GetUserById(id int) ([]entity.User, error)
 	GetUserByUserName(userName string) ([]entity.User, error)
-	ChangePassword(password string, id int, userName string) (entity.User, error)
+	ChangePassword(passwordNew string, passwordOld string, id int, userName string) (entity.User, error)
 	GetAllUser() ([]entity.User, error)
 	DeleteUser(id int, userName string) (entity.User, error)
 }
@@ -29,7 +29,7 @@ func NewUserService(userRepository repository.UserRepository) *userService {
 	return &userService{userRepository}
 }
 
-func (s *userService) ChangePassword(password string, id int, userName string) (entity.User, error) {
+func (s *userService) ChangePassword(passwordNew string, passwordOld string, id int, userName string) (entity.User, error) {
 	oldUsers, err := s.userRepository.FindById(id)
 
 	if err != nil {
@@ -39,8 +39,15 @@ func (s *userService) ChangePassword(password string, id int, userName string) (
 	if len(oldUsers) == 0 {
 		return entity.User{}, errors.New("user not found")
 	}
+
+	err = bcrypt.CompareHashAndPassword([]byte(oldUsers[0].Password), []byte(passwordOld))
+
+	if err != nil {
+		return oldUsers[0], errors.New("wrong password")
+	}
+
 	key := rand.Intn(9)
-	passwordEncrypt, err := bcrypt.GenerateFromPassword([]byte(password), key)
+	passwordEncrypt, err := bcrypt.GenerateFromPassword([]byte(passwordNew), key)
 	if err != nil {
 		return entity.User{}, errors.New("error encrypt password")
 	}
