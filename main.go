@@ -38,7 +38,7 @@ func main() {
 	if err != nil {
 		log.Fatal(err.Error())
 	}
-	db.AutoMigrate(entity.BankAccount{}, entity.UserAccount{}, entity.TrxCategory{}, entity.Transaction{}, entity.User{})
+	db.AutoMigrate(entity.User{}, entity.UserAccount{}, entity.BankAccount{}, entity.TrxCategory{}, entity.Transaction{})
 	//Repository Region
 	userAccountRepository := repository.NewUserAccountRepository(db)
 	trxCategoryRepository := repository.NewTrxCategoryRepository(db)
