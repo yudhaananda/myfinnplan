@@ -10,6 +10,7 @@ import (
 	"github.com/dgrijalva/jwt-go"
 	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
+	"github.com/joho/godotenv"
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
 
@@ -26,10 +27,10 @@ func main() {
 	// dsn := "root:@tcp(127.0.0.1:3306)/myfinnplan?charset=utf8mb4&parseTime=true&loc=Local"
 	// db, err := gorm.Open(mysql.Open(dsn), &gorm.Config{})
 
-	// err := godotenv.Load(".env")
-	// if err != nil {
-	// 	log.Fatal(err.Error())
-	// }
+	err := godotenv.Load(".env")
+	if err != nil {
+		log.Fatal(err.Error())
+	}
 	env := entity.SetEnv()
 	dsn := fmt.Sprintf("host=%s user=%s password=%s dbname=%s port=%s sslmode=require TimeZone=Asia/Shanghai", env.DB_HOST, env.DB_USER, env.DB_PASS, env.DB_NAME, env.DB_PORT)
 	db, err := gorm.Open(postgres.Open(dsn), &gorm.Config{})
