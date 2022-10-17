@@ -47,7 +47,7 @@ func (r *userRepository) Edit(user entity.User) (entity.User, error) {
 func (r *userRepository) FindById(id int) ([]entity.User, error) {
 	var user []entity.User
 
-	err := r.db.Where("id = ? AND (deleted_by = ? OR deleted_by = ?) ", id, "", nil).Find(&user).Error
+	err := r.db.Where("id = ? AND (deleted_by = ? OR deleted_by is null) ", id, "").Find(&user).Error
 
 	if err != nil {
 		return user, err
