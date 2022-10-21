@@ -59,8 +59,8 @@ func FormatTransaction(transaction []entity.Transaction) TransactionFormatter {
 	return result
 }
 
-func normalizeMonth(monthTotal map[string]float64) map[string]map[string]float64 {
-	temp := make(map[string]map[string]float64)
+func normalizeMonth(monthTotal map[string]float64) (temp map[string]map[string]float64) {
+	temp = make(map[string]map[string]float64)
 	for key, v := range monthTotal {
 		year := strings.Split(key, " ")[1]
 		temp[year][key] = v
@@ -74,8 +74,8 @@ func normalizeMonth(monthTotal map[string]float64) map[string]map[string]float64
 	return temp
 }
 
-func normalizeWeek(monthTotal map[string]float64, weekTotal map[string]float64) map[string]map[string]float64 {
-	temp := make(map[string]map[string]float64)
+func normalizeWeek(monthTotal map[string]float64, weekTotal map[string]float64) (temp map[string]map[string]float64) {
+	temp = make(map[string]map[string]float64)
 	for monthKey := range monthTotal {
 		for weekKey, week := range weekTotal {
 			if strings.Contains(weekKey, monthKey) {
