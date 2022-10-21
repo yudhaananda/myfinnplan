@@ -3,14 +3,17 @@ package formatter
 import (
 	"myfinnplan/entity"
 	"strconv"
+	"strings"
 	"time"
 )
 
 type TransactionFormatter struct {
-	Week       map[string][]entity.Transaction
-	WeekTotal  map[string]float64
-	Month      map[string][]entity.Transaction
-	MonthTotal map[string]float64
+	Week                map[string][]entity.Transaction
+	WeekTotal           map[string]float64
+	WeekTotalNormalize  map[string]map[string]float64
+	Month               map[string][]entity.Transaction
+	MonthTotal          map[string]float64
+	MonthTotalNormalize map[string]map[string]float64
 }
 
 func FormatTransaction(transaction []entity.Transaction) TransactionFormatter {
@@ -20,6 +23,8 @@ func FormatTransaction(transaction []entity.Transaction) TransactionFormatter {
 	result.Month = make(map[string][]entity.Transaction)
 	result.WeekTotal = make(map[string]float64)
 	result.MonthTotal = make(map[string]float64)
+	result.WeekTotalNormalize = make(map[string]map[string]float64)
+	result.MonthTotalNormalize = make(map[string]map[string]float64)
 
 	for _, value := range transaction {
 		year, week := value.CreatedDate.ISOWeek()
@@ -48,5 +53,59 @@ func FormatTransaction(transaction []entity.Transaction) TransactionFormatter {
 
 	}
 
+	result.WeekTotalNormalize = normalizeWeek(result.MonthTotal, result.WeekTotal)
+	result.MonthTotalNormalize = normalizeMonth(result.MonthTotal)
+
 	return result
+}
+
+func normalizeMonth(monthTotal map[string]float64) map[string]map[string]float64 {
+	temp := make(map[string]map[string]float64)
+	for key, v := range monthTotal {
+		year := strings.Split(key, " ")[1]
+		temp[year][key] = v
+	}
+	for key, val := range temp {
+		min, max := findMinAndMax(val)
+		for idx, v := range val {
+			temp[key][idx] = (v - min) / (max - min)
+		}
+	}
+	return temp
+}
+
+func normalizeWeek(monthTotal map[string]float64, weekTotal map[string]float64) map[string]map[string]float64 {
+	temp := make(map[string]map[string]float64)
+	for monthKey := range monthTotal {
+		for weekKey, week := range weekTotal {
+			if strings.Contains(weekKey, monthKey) {
+				temp[monthKey][weekKey] = week
+			}
+		}
+	}
+	for key, val := range temp {
+		min, max := findMinAndMax(val)
+		for idx, v := range val {
+			temp[key][idx] = (v - min) / (max - min)
+		}
+	}
+	return temp
+}
+
+func findMinAndMax(a map[string]float64) (min float64, max float64) {
+	i := 0
+	for _, value := range a {
+		if i == 0 {
+			max = value
+			min = value
+		}
+		if value < min {
+			min = value
+		}
+		if value > max {
+			max = value
+		}
+		i++
+	}
+	return min, max
 }
