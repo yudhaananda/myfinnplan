@@ -53,8 +53,8 @@ func FormatTransaction(transaction []entity.Transaction) TransactionFormatter {
 
 	}
 
-	result.WeekTotalNormalize = normalizeWeek(result.MonthTotal, result.WeekTotal)
-	// result.MonthTotalNormalize = normalizeMonth(result.MonthTotal)
+	// result.WeekTotalNormalize = normalizeWeek(result.MonthTotal, result.WeekTotal)
+	result.MonthTotalNormalize = normalizeMonth(result.MonthTotal)
 
 	return result
 }
