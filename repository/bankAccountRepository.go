@@ -73,7 +73,7 @@ func (r *bankAccountRepository) FindByAccountIdOwner(id int) ([]entity.BankAccou
 	var bankAccount []entity.BankAccount
 
 	err := r.db.Where("account_id_owner = ? AND deleted_by = ?", id, "").Preload("UserAccount").Preload("Transactions", func(db *gorm.DB) *gorm.DB {
-		return db.Order("transacrions.id DESC")
+		return db.Order("transactions.id DESC")
 	}).Find(&bankAccount).Error
 
 	if err != nil {
