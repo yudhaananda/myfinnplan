@@ -48,7 +48,7 @@ func main() {
 	//Service Region
 	userAccountService := service.NewUserAccountService(userAccountRepository)
 	trxCategoryService := service.NewTrxCategoryService(trxCategoryRepository)
-	transactionService := service.NewTransactionService(transactionRepository)
+	transactionService := service.NewTransactionService(transactionRepository, bankAccountRepository)
 	userService := service.NewUserService(userRepository)
 	authService := service.NewAuthService(userRepository)
 	jwtService := service.NewJwtService()

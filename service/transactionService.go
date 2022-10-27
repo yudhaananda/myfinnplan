@@ -23,10 +23,11 @@ type TransactionService interface {
 
 type transactionService struct {
 	transactionRepository repository.TransactionRepository
+	bankAccountRepository repository.BankAccountRepository
 }
 
-func NewTransactionService(transactionRepository repository.TransactionRepository) *transactionService {
-	return &transactionService{transactionRepository}
+func NewTransactionService(transactionRepository repository.TransactionRepository, bankAccountRepository repository.BankAccountRepository) *transactionService {
+	return &transactionService{transactionRepository, bankAccountRepository}
 }
 
 func (s *transactionService) CreateTransaction(input input.TransactionInput, userName string) (entity.Transaction, error) {
@@ -113,7 +114,18 @@ func (s *transactionService) GetTransactionByBankAccountId(bankAccountId int) ([
 	if err != nil {
 		return transaction, err
 	}
-
+	if len(transaction) == 0 {
+		bankAccount, err := s.bankAccountRepository.FindById(bankAccountId)
+		if err != nil {
+			return transaction, err
+		}
+		if bankAccount == nil {
+			return transaction, err
+		}
+		return []entity.Transaction{entity.Transaction{
+			BankAccount: bankAccount[0],
+		}}, nil
+	}
 	return transaction, nil
 }
 func (s *transactionService) GetTransactionByCategoryCode(categoryCode string) ([]entity.Transaction, error) {
