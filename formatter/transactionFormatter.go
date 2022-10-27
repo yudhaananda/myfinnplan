@@ -112,7 +112,7 @@ func normalizeWeek(monthTotal map[string]float64, weekTotal map[string]float64) 
 	for monthKey := range monthTotal {
 		temp[monthKey] = make(map[string]float64)
 		for weekKey, week := range weekTotal {
-			if strings.Contains(weekKey, monthKey) {
+			if strings.Contains(weekKey, monthKey) && !strings.Contains(weekKey, "estimate") {
 				temp[monthKey][weekKey] = week
 			}
 		}
