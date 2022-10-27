@@ -114,10 +114,6 @@ func (s *transactionService) GetTransactionByBankAccountId(bankAccountId int) ([
 		return transaction, err
 	}
 
-	if len(transaction) == 0 {
-		return transaction, errors.New("transaction not found")
-	}
-
 	return transaction, nil
 }
 func (s *transactionService) GetTransactionByCategoryCode(categoryCode string) ([]entity.Transaction, error) {
