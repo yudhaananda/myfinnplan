@@ -8,12 +8,16 @@ import (
 )
 
 type TransactionFormatter struct {
-	Week                map[string][]entity.Transaction
-	WeekTotal           map[string]float64
-	WeekTotalNormalize  map[string]map[string]float64
-	Month               map[string][]entity.Transaction
-	MonthTotal          map[string]float64
-	MonthTotalNormalize map[string]map[string]float64
+	Week                   map[string][]entity.Transaction
+	WeekTotal              map[string]float64
+	WeekTotalNormalize     map[string]map[string]float64
+	WeekEstimate           float64
+	WeekEstimateNormalize  map[string]map[string]float64
+	Month                  map[string][]entity.Transaction
+	MonthTotal             map[string]float64
+	MonthTotalNormalize    map[string]map[string]float64
+	MonthEstimate          float64
+	MonthEstimateNormalize map[string]map[string]float64
 }
 
 func FormatTransaction(transaction []entity.Transaction) TransactionFormatter {
@@ -25,7 +29,7 @@ func FormatTransaction(transaction []entity.Transaction) TransactionFormatter {
 	result.MonthTotal = make(map[string]float64)
 	result.WeekTotalNormalize = make(map[string]map[string]float64)
 	result.MonthTotalNormalize = make(map[string]map[string]float64)
-
+	totalAmount := 0.0
 	for _, value := range transaction {
 		year, week := value.CreatedDate.ISOWeek()
 		if year < value.CreatedDate.Year() {
@@ -50,13 +54,26 @@ func FormatTransaction(transaction []entity.Transaction) TransactionFormatter {
 
 		result.Month[monthName] = append(result.Month[monthName], value)
 		result.MonthTotal[monthName] += value.Amount
+		totalAmount += value.Amount
+	}
 
+	if transaction[0].BankAccount.Amount != 0 {
+		result.WeekEstimate, result.MonthEstimate = estimate(transaction[0].BankAccount.Amount, totalAmount, transaction[0].BankAccount.ExpiredDate)
 	}
 
 	result.WeekTotalNormalize = normalizeWeek(result.MonthTotal, result.WeekTotal)
 	result.MonthTotalNormalize = normalizeMonth(result.MonthTotal)
 
 	return result
+}
+
+func estimate(debitAmount, totalAmount float64, expDate time.Time) (float64, float64) {
+	creditAmount := debitAmount - totalAmount
+
+	test := time.Until(expDate)
+	daysUntilExp := time.Date(1, 1, 1, int(test.Hours()), 0, 0, 0, time.Local).YearDay()
+	amountPerDays := creditAmount / float64(daysUntilExp)
+	return amountPerDays * 7, amountPerDays * 30
 }
 
 func normalizeMonth(monthTotal map[string]float64) (temp map[string]map[string]float64) {
