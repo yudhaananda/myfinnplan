@@ -56,13 +56,16 @@ func FormatTransaction(transaction []entity.Transaction) TransactionFormatter {
 		result.MonthTotal[monthName] += value.Amount
 		totalAmount += value.Amount
 	}
-
+	monthTotal := result.MonthTotal
+	weekTotal := result.WeekTotal
 	if transaction[0].BankAccount.Amount != 0 {
 		result.WeekEstimate, result.MonthEstimate = estimate(transaction[0].BankAccount.Amount, totalAmount, transaction[0].BankAccount.ExpiredDate)
+		monthTotal["normalizeMonth"] = result.MonthEstimate
+		weekTotal["normalizeWeek"] = result.WeekEstimate
 	}
 
-	result.WeekTotalNormalize = normalizeWeek(result.MonthTotal, result.WeekTotal)
-	result.MonthTotalNormalize = normalizeMonth(result.MonthTotal)
+	result.WeekTotalNormalize = normalizeWeek(monthTotal, weekTotal)
+	result.MonthTotalNormalize = normalizeMonth(monthTotal)
 
 	return result
 }
