@@ -122,7 +122,7 @@ func (s *transactionService) GetTransactionByBankAccountId(bankAccountId int) ([
 		if bankAccount == nil {
 			return transaction, err
 		}
-		return []entity.Transaction{entity.Transaction{
+		return []entity.Transaction{{
 			BankAccount: bankAccount[0],
 		}}, nil
 	}
