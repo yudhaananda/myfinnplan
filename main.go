@@ -75,8 +75,7 @@ func main() {
 		AllowOriginFunc: func(origin string) bool {
 			return origin == "https://github.com"
 		},
-		AllowAllOrigins: true,
-		MaxAge:          12 * time.Hour,
+		MaxAge: 12 * time.Hour,
 	}))
 
 	api := router.Group("/api/v1")
