@@ -75,6 +75,13 @@ func FormatTransaction(transaction []entity.Transaction) TransactionFormatter {
 	}
 
 	result.WeekTotalNormalize = normalizeWeek(monthTotal, weekTotal)
+	for key := range result.WeekTotalNormalize {
+		if strings.Contains(key, "estimate") {
+			for k := range result.WeekEstimateNormalize[key] {
+				delete(result.WeekEstimateNormalize[key], k)
+			}
+		}
+	}
 	result.MonthTotalNormalize = normalizeMonth(monthTotal)
 
 	return result
@@ -112,7 +119,7 @@ func normalizeWeek(monthTotal map[string]float64, weekTotal map[string]float64) 
 	for monthKey := range monthTotal {
 		temp[monthKey] = make(map[string]float64)
 		for weekKey, week := range weekTotal {
-			if strings.Contains(weekKey, monthKey) && !strings.Contains(weekKey, "estimate") {
+			if strings.Contains(weekKey, monthKey) {
 				temp[monthKey][weekKey] = week
 			}
 		}
