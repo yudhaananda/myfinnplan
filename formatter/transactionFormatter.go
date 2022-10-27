@@ -68,8 +68,6 @@ func FormatTransaction(transaction []entity.Transaction) TransactionFormatter {
 		result.WeekEstimate, result.MonthEstimate = estimate(transaction[0].BankAccount.Amount, totalAmount, transaction[0].BankAccount.ExpiredDate)
 		for key := range result.MonthTotal {
 			monthTotal[key+" estimate"] = result.MonthEstimate
-		}
-		for key := range result.WeekTotal {
 			weekTotal[key+" estimate"] = result.WeekEstimate
 		}
 	}
