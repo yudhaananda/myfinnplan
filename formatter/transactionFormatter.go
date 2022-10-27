@@ -8,16 +8,14 @@ import (
 )
 
 type TransactionFormatter struct {
-	Week                   map[string][]entity.Transaction
-	WeekTotal              map[string]float64
-	WeekTotalNormalize     map[string]map[string]float64
-	WeekEstimate           float64
-	WeekEstimateNormalize  map[string]map[string]float64
-	Month                  map[string][]entity.Transaction
-	MonthTotal             map[string]float64
-	MonthTotalNormalize    map[string]map[string]float64
-	MonthEstimate          float64
-	MonthEstimateNormalize map[string]map[string]float64
+	Week                map[string][]entity.Transaction
+	WeekTotal           map[string]float64
+	WeekTotalNormalize  map[string]map[string]float64
+	WeekEstimate        float64
+	Month               map[string][]entity.Transaction
+	MonthTotal          map[string]float64
+	MonthTotalNormalize map[string]map[string]float64
+	MonthEstimate       float64
 }
 
 func FormatTransaction(transaction []entity.Transaction) TransactionFormatter {
@@ -67,7 +65,8 @@ func FormatTransaction(transaction []entity.Transaction) TransactionFormatter {
 	if transaction[0].BankAccount.Amount != 0 {
 		result.WeekEstimate, result.MonthEstimate = estimate(transaction[0].BankAccount.Amount, totalAmount, transaction[0].BankAccount.ExpiredDate)
 		for key := range result.MonthTotal {
-			monthTotal[key+" estimate"] = result.MonthEstimate
+			year := strings.Split(key, " ")[1]
+			monthTotal[year+" estimate"] = result.MonthEstimate
 			weekTotal[key+" estimate"] = result.WeekEstimate
 		}
 	}
