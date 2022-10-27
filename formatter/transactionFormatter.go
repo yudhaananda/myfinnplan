@@ -62,7 +62,7 @@ func FormatTransaction(transaction []entity.Transaction) TransactionFormatter {
 	for key, value := range result.WeekTotal {
 		weekTotal[key] = value
 	}
-	if transaction[0].BankAccount.Amount != 0 {
+	if transaction[0].BankAccount.IsDebit {
 		result.WeekEstimate, result.MonthEstimate = estimate(transaction[0].BankAccount.Amount, totalAmount, transaction[0].BankAccount.ExpiredDate)
 		for key := range result.MonthTotal {
 			year := strings.Split(key, " ")[1]
