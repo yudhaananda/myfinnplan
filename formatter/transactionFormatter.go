@@ -82,8 +82,17 @@ func estimate(debitAmount, totalAmount float64, expDate time.Time) (float64, flo
 
 	test := time.Until(expDate)
 	daysUntilExp := time.Date(1, 1, 1, int(test.Hours()), 0, 0, 0, time.Local).YearDay()
+
 	amountPerDays := creditAmount / float64(daysUntilExp)
-	return amountPerDays * 7, amountPerDays * 30
+	amountPerWeek := creditAmount
+	amountPerMonth := creditAmount
+	if daysUntilExp > 7 {
+		amountPerWeek = amountPerDays * 7
+	}
+	if daysUntilExp > 30 {
+		amountPerMonth = amountPerDays * 30
+	}
+	return amountPerWeek, amountPerMonth
 }
 
 func normalizeMonth(monthTotal map[string]float64) (temp map[string]map[string]float64) {
