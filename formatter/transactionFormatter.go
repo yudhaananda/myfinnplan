@@ -46,7 +46,9 @@ func FormatTransaction(transaction []entity.Transaction) TransactionFormatter {
 		}
 		weekName := "week " + strconv.Itoa(week-weekMin+1) + " " + value.CreatedDate.Month().String() + " " + strconv.Itoa(value.CreatedDate.Year())
 		monthName := value.CreatedDate.Month().String() + " " + strconv.Itoa(value.CreatedDate.Year())
-
+		if weekName == "week 1 January 1" || monthName == "January 1" {
+			break
+		}
 		result.Week[weekName] = append(result.Week[weekName], value)
 		result.WeekTotal[weekName] += value.Amount
 
